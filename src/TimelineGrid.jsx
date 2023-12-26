@@ -1,32 +1,31 @@
 import {useState} from "react";
 
-function TimelinePlot(){
+function TimelineEntry(props){
 
     // eslint-disable-next-line react/prop-types
-    // const plotClass = props.plotState ? "select" : "unselect";
+    const entryClass = props.entryState ? "select" : "unselect";
     // eslint-disable-next-line react/prop-types
-    // const onPlotClick = props.onPlotClick;
+    const onEntryClick = props.onEntryClick;
 
     return(
         // eslint-disable-next-line react/prop-types
-        // <div onClick={onPlotClick} className={"timeline-plot" + " " + plotClass}></div>
-        <div className={"timeline-plot"}></div>
+        <div onClick={onEntryClick} className={"timeline-entry" + " " + entryClass}></div>
     );
 }
 
 function GridItem(){
-    const [plotSelect, setPlotSelect] = useState(false);
+    const [entrySelect, setEntrySelect] = useState(false);
 
-    const onPlotClick = (plotSelected) => () => {
-        const nextPlotSelect = !plotSelected;
-        setPlotSelect(nextPlotSelect);
+    const onEntryClick = (entrySelected) => () => {
+        const nextEntrySelect = !entrySelected;
+        setEntrySelect(nextEntrySelect);
     };
 
     return (
         <div className="grid-item">
             <div className="horizontal-line"></div>
             <div className="vertical-line"></div>
-            <TimelinePlot onPlotClick={onPlotClick(plotSelect)} plotState={plotSelect} />
+            <TimelineEntry onEntryClick={onEntryClick(entrySelect)} entryState={entrySelect} />
         </div>
     );
 }
