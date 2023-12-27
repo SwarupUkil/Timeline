@@ -50,34 +50,31 @@ body {
 }
 
 /* Timeline plot general style */
-.timeline-entry {
+.timeline-plot {
     position: absolute;
     width: 9px;
     height: 9px;
     border: 2px solid transparent;
     border-radius: 100%;
-}
-
-.timeline-entry:hover {
-    filter: drop-shadow(0 0 2em #646cffaa);
-    border: 1px solid #242424;
-}
-
-/* Selected timeline plot point style */
-.select {
-    padding: 10px;
-    background-color: #646cff;
-}
-
-.select:hover {
-    transform: scale(1.5);
-}
-
-/* Unselected timeline plot point style */
-.unselect {
     background-color: #f0f0f0;
 }
 
-.unselect:hover {
-    transform: scale(2.50);
+.timeline-plot:hover {
+    filter: drop-shadow(0 0 2em #646cffaa);
+}
+
+/* Selected and Unselected timeline plot point style */
+.select {
+    padding: 1px;
+    border: 1px solid red;
+}
+
+.select:hover , .deselect:hover {
+    transform: scale(1.5);
+}
+
+ /*Timeline entry style */
+.timeline-entry {
+    padding: 10px;
+    background-color: #646cff;
 }
