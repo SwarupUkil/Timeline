@@ -1,6 +1,3 @@
-
-// function Image
-
 function EntryCard(){
 
     return (
