@@ -1,0 +1,13 @@
+.card-container{
+    height: 500px;
+    width: 500px;
+    display: flex;
+    border: 2px solid white;
+    flex-direction: column;
+    background-color: white;
+    color: black;
+}
+
+.ass{
+    width: 1000px;
+}
