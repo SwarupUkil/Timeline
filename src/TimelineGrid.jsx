@@ -1,4 +1,5 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
+// import PropTypes from "prop-types";
 
 function TimelineEntry(props){
 
@@ -18,15 +19,24 @@ function TimelineEntry(props){
     );
 }
 
-function GridItem(){
-    const [entrySelect, setEntrySelect] = useState(false);
+function GridItem(props){
+    // eslint-disable-next-line react/prop-types
+    const [entrySelect, setEntrySelect] = useState(props.selectGridItemKey === props.gridKey);
     const [entryAdd, setEntryAdd] = useState(false);
+
+    useEffect(() => {
+        // eslint-disable-next-line react/prop-types
+        setEntrySelect(props.selectGridItemKey === props.gridKey)
+        // eslint-disable-next-line react/prop-types
+    }, [props.gridKey, props.selectGridItemKey]);
 
     const onEntryClick = (entrySelected, entryAdded) => () => {
         const nextEntrySelect = !entrySelected;
         const nextEntryAdd = entryAdded || nextEntrySelect;
         setEntrySelect(nextEntrySelect);
         setEntryAdd(nextEntryAdd);
+        // eslint-disable-next-line react/prop-types
+        props.setSelectGridItemKey(props.gridKey);
     };
 
     return (
@@ -41,11 +51,16 @@ function GridItem(){
 }
 
 function TimelineGrid(props){
+    const [selectGridItemKey, setSelectGridItemKey] = useState(null);
+
     // Create an array of `GridItem` components
     const gridItems = [];
     // eslint-disable-next-line react/prop-types
-    for (let i = 0; i < props.size; i++) {
-        gridItems.push(<GridItem key={i} />);  // Key added for React list rendering
+    for (let i = 1; i <= props.size; i++) {
+        gridItems.push(<GridItem key={i}
+                                 selectGridItemKey={selectGridItemKey}
+                                 setSelectGridItemKey={setSelectGridItemKey}
+                                 gridKey={i} />);  // Key added for React list rendering
     }
 
     return (
@@ -56,5 +71,13 @@ function TimelineGrid(props){
         </>
     );
 }
+
+// TimelineGrid.propTypes = {
+//     side: PropTypes.number.isRequired,
+// };
+//
+// TimelineGrid.defaultProps = {
+//     side: 25,
+// };
 
 export default TimelineGrid
