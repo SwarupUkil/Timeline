@@ -14,7 +14,7 @@ export const EntryCardContext = createContext({
 function Application() {
     const size = 25;
     const [idValue, setIdValue] = useState("hidden");
-    const [keyValue, setKeyValue] = useState(null);
+    const [keyValue, setKeyValue] = useState(0);
 
     return (
         <>

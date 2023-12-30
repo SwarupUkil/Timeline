@@ -35,7 +35,7 @@ function GridItem(props){
         setEntrySelect(nextEntrySelect);
         setEntryAdd(nextEntryAdd);
         props.setSelectGridItemKey(props.gridKey);
-        setKeyValue(props.gridKey);
+        setKeyValue(props.gridKey - 1); // required so that it fits array index values
 
         // if selected node is toggled to be selected
         // then show the EntryCard with appropriate info.
