@@ -1,0 +1,13 @@
+.card-container{
+    height: 500px;
+    width: 500px;
+    display: flex;
+    border: 3px solid black;
+    flex-direction: column;
+    background-color: white;
+    color: black;
+}
+
+#hidden {
+    display:none;
+}
