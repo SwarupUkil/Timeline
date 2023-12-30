@@ -7,7 +7,7 @@ import {useState, createContext} from "react";
 export const EntryCardContext = createContext({
     idValue: "hidden",
     setIdValue: () => {},
-    keyValue: null,
+    keyValue: 0,
     setKeyValue: () => {},
 });
 
