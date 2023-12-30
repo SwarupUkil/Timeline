@@ -5,6 +5,18 @@ import PropTypes from "prop-types";
 
 function EntryImage(props){
     const imageClass = "entry-image";
+    const inputId = "change-image";
+    const type = "file";
+    const accept= ".png, .jpg, .jpeg"
+
+    const changeImage = (event) => {
+        if (event.target.files && event.target.files[0]){
+            const file = event.target.files[0]; // first uploaded image
+            const reader = new FileReader();
+            reader.onloadend = () => {props.update(props.index, "image", reader.result);}
+            reader.readAsDataURL(file);
+        }
+    }
 
     return (
         <>
@@ -12,7 +24,11 @@ function EntryImage(props){
                 className={imageClass}
                 src={props.image}
                 alt={"Image of " + props.title}
+                onClick={() => document.getElementById(inputId).click()}
             />
+            <input id={inputId}
+                   type={type}
+                   accept={accept} onChange={changeImage}/>
         </>
     );
 }

@@ -8,7 +8,6 @@
 
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
 }
 
 #hidden {
@@ -18,7 +17,8 @@
 /* Image styling */
 #image-container {
     width: 100%;
-    height: 50%;
+    height: auto;
+    max-height: 50%;
 }
 
 .entry-image {
@@ -27,12 +27,22 @@
     max-height: 95%;
     object-fit: cover;
     border: 1px solid black;
+    cursor: pointer;
+}
+
+#change-image {
+    width: 0;
+    height: 0;
+    display: none;
 }
 
 /* Title, Date, Description container styling */
 #description-container {
     width: 100%;
-    height: 50%;
+    height: auto;
+    min-height: 50%;
+
+    flex: 1;
     display: flex;
     flex-direction: column;
     gap: 5%;
