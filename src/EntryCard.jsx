@@ -4,19 +4,31 @@ import {useContext} from "react";
 import PropTypes from "prop-types";
 
 function EntryImage(props){
+    const imageClass = "entry-image";
 
     return (
         <>
-            <div>{props.image}</div>
+            <img
+                className={imageClass}
+                src={props.image}
+                alt={"Image of " + props.title}
+            />
         </>
     );
 }
 
 function EntryTitle(props){
+    const inputClass = "entry-title"
+    const type = "text";
 
     return (
         <>
-            <div>{props.title}</div>
+            <input
+                className={inputClass}
+                type={type}
+                value={props.title}
+                onChange={(event) => props.setTitle(event.target.value)}
+            />
         </>
     );
 }
@@ -43,11 +55,13 @@ function EntryCard(props){
 
     const {idValue, keyValue} = useContext(EntryCardContext);
     const containerClasses = "card-container";
+    const imageContainer = "image-container";
+    const descriptionContainer = "description-container";
 
     const entryCardStates = [];
     for (let i = 1; i <= props.size; i++){
         // eslint-disable-next-line react-hooks/rules-of-hooks
-        const [imageRef, setImageRef] = useState("./assets/react.svg");
+        const [imageRef, setImageRef] = useState("./src/assets/freedom.png");
         // eslint-disable-next-line react-hooks/rules-of-hooks
         const [title, setTitle] = useState("Enter Title");
         // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -62,16 +76,23 @@ function EntryCard(props){
 
     const image = entryCardStates[keyValue][0][0];
     const title = entryCardStates[keyValue][1][0];
+    const setTitle = entryCardStates[keyValue][1][1];
     const date = entryCardStates[keyValue][2][0];
     const description = entryCardStates[keyValue][3][0];
 
     return (
         <>
             <div id={idValue} className={containerClasses}>
-                <EntryImage image={image}/>
-                <EntryTitle title={title}/>
-                <EntryDate date={date} />
-                <EntryDescription description={description} />
+                <div id={imageContainer}>
+                    <EntryImage image={image} title={title}/>
+                </div>
+                <div id={descriptionContainer}>
+                    <div>
+                        <EntryTitle title={title} setTitle={setTitle}/>
+                        <EntryDate date={date} />
+                    </div>
+                    <EntryDescription description={description} />
+                </div>
             </div>
         </>
     );
@@ -84,10 +105,12 @@ EntryCard.propTypes = {
 
 EntryImage.propTypes = {
     image: PropTypes.string,
+    title: PropTypes.string,
 }
 
 EntryTitle.propTypes = {
     title: PropTypes.string,
+    setTitle: PropTypes.func,
 }
 
 EntryDate.propTypes = {

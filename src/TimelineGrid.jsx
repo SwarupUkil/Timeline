@@ -92,7 +92,7 @@ TimelineGrid.defaultProps = {
 };
 
 GridItem.propTypes = {
-    selectGridItemKey: PropTypes.number.isRequired,
+    selectGridItemKey: PropTypes.number,
     setSelectGridItemKey: PropTypes.func.isRequired,
     gridKey: PropTypes.number.isRequired,
 };
