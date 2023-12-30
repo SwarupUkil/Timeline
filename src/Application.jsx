@@ -4,9 +4,9 @@ import TimelineGrid from "./TimelineGrid.jsx";
 import EntryCard from "./EntryCard.jsx";
 import {useState, createContext} from "react";
 
-const EntryCardContext = createContext({
+export const EntryCardContext = createContext({
     idValue: "hidden",
-    setIdValue: () => {},
+    // setIdValue: () => {},
     // imageRef: "",
     // title: "Title",
     // date: NaN,
@@ -24,7 +24,7 @@ function Application() {
         <>
             <EntryCardContext.Provider value={{idValue, setIdValue}}>
                 <TimelineGrid size={25}/>
-                <EntryCard />
+                <EntryCard/>
             </EntryCardContext.Provider>
         </>
     );

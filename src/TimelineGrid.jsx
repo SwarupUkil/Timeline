@@ -1,5 +1,7 @@
 import {useEffect, useState} from "react";
 import PropTypes from "prop-types";
+import {useContext} from "react";
+import {EntryCardContext} from "./Application.jsx";
 
 function TimelineEntry(props){
 
@@ -20,6 +22,7 @@ function GridItem(props){
 
     const [entrySelect, setEntrySelect] = useState(props.selectGridItemKey === props.gridKey);
     const [entryAdd, setEntryAdd] = useState(false);
+    const {setIdValue} = useContext(EntryCardContext);
 
     useEffect(() => {
         setEntrySelect(props.selectGridItemKey === props.gridKey)
@@ -28,9 +31,18 @@ function GridItem(props){
     const onEntryClick = (entrySelected, entryAdded) => () => {
         const nextEntrySelect = !entrySelected;
         const nextEntryAdd = entryAdded || nextEntrySelect;
+
         setEntrySelect(nextEntrySelect);
         setEntryAdd(nextEntryAdd);
         props.setSelectGridItemKey(props.gridKey);
+
+        // if selected node is toggled to be selected
+        // then show the EntryCard with appropriate info.
+        if (nextEntrySelect){
+            setIdValue("show");
+        }else{
+            setIdValue("hidden");
+        }
     };
 
     return (
