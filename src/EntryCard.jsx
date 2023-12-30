@@ -34,10 +34,17 @@ function EntryTitle(props){
 }
 
 function EntryDate(props){
+    const inputClass = "entry-date"
+    const type = "text";
 
     return (
         <>
-            <div>{props.date}</div>
+            <input
+                className={inputClass}
+                type={type}
+                value={props.date}
+                onChange={(event) => props.update(props.index, "date", event.target.value)}
+            />
         </>
     );
 }
