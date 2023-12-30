@@ -3,6 +3,42 @@ import {EntryCardContext} from "./Application.jsx";
 import {useContext} from "react";
 import PropTypes from "prop-types";
 
+function EntryImage(props){
+
+    return (
+        <>
+            <div>{props.image}</div>
+        </>
+    );
+}
+
+function EntryTitle(props){
+
+    return (
+        <>
+            <div>{props.title}</div>
+        </>
+    );
+}
+
+function EntryDate(props){
+
+    return (
+        <>
+            <div>{props.date}</div>
+        </>
+    );
+}
+
+function EntryDescription(props){
+
+    return (
+        <>
+            <div>{props.description}</div>
+        </>
+    );
+}
+
 function EntryCard(props){
 
     const {idValue, keyValue} = useContext(EntryCardContext);
@@ -32,10 +68,10 @@ function EntryCard(props){
     return (
         <>
             <div id={idValue} className={containerClasses}>
-                <div>{image}</div>
-                <div>{title}</div>
-                <div>{date}</div>
-                <div>{description}</div>
+                <EntryImage image={image}/>
+                <EntryTitle title={title}/>
+                <EntryDate date={date} />
+                <EntryDescription description={description} />
             </div>
         </>
     );
@@ -45,6 +81,22 @@ function EntryCard(props){
 EntryCard.propTypes = {
     size: PropTypes.number.isRequired,
 };
+
+EntryImage.propTypes = {
+    image: PropTypes.string,
+}
+
+EntryTitle.propTypes = {
+    title: PropTypes.string,
+}
+
+EntryDate.propTypes = {
+    date: PropTypes.string,
+}
+
+EntryDescription.propTypes = {
+    description: PropTypes.string,
+}
 
 // Exports
 export default EntryCard
