@@ -1,0 +1,46 @@
+/* DeleteEntry modal styling */
+.modal {
+    background-color: white;
+    color: black;
+    border: 1px solid black;
+    padding: 3%;
+    height: 100%;
+    /*border-radius: 3%;*/
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.modal div {
+    display: flex;
+    justify-content: space-around;
+    gap: 100%;
+}
+
+.modal-button {
+    border-radius: 8px;
+    border: 1px solid transparent;
+    padding: 0.6em 1.2em;
+    font-size: 1em;
+    font-weight: 500;
+    font-family: inherit;
+    background-color: #1a1a1a;
+    cursor: pointer;
+    transition: border-color 0.25s;
+}
+.modal-button:hover {
+    border-color: #646cff;
+}
+.modal-button:focus,
+.modal-button:focus-visible {
+    outline: 4px auto -webkit-focus-ring-color;
+}

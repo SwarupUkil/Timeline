@@ -1,5 +1,6 @@
 import './Application.css'
 import './EntryCard.css'
+import './DeleteEntryModal.css'
 import TimelineGrid from "./TimelineGrid.jsx";
 import EntryCard from "./EntryCard.jsx";
 import DeleteEntryModal from "./DeleteEntryModal.jsx";
