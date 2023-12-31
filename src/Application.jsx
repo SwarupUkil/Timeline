@@ -26,17 +26,9 @@ function Application() {
     // Delete timeline entry logic
     useEffect(() => {
         const onDeleteIsDown = (event) => {
-            // keyCode 8 refers to backspace
-            if (event.keyCode === 8 && selectGridItemKey){
+            // keyCode 8 refers to shift key, metakey = cmd, ctrlkey = ctrl.
+            if (event.keyCode === 16 && (event.metaKey || event.ctrlKey) && selectGridItemKey){
                 setDeleteModalState(true);
-
-                // so I make a clear data state,
-                // when true then change AddState in TimelineGrid to false,
-                // and in EntryCard, make all states become default.
-                // Have both then set DeleteState = false;
-
-                // First lets make the modal that popups on select + delete.
-                // Add a yes and no button.
             }
         };
 

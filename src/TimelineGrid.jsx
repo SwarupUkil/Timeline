@@ -22,11 +22,21 @@ function GridItem(props){
 
     const [entrySelect, setEntrySelect] = useState(props.selectGridItemKey === props.gridKey);
     const [entryAdd, setEntryAdd] = useState(false);
-    const {setIdValue, setKeyValue} = useContext(EntryCardContext);
+    const {setIdValue, setKeyValue, deleteState, setDeleteState} = useContext(EntryCardContext);
 
     useEffect(() => {
-        setEntrySelect(props.selectGridItemKey === props.gridKey)
-    }, [props.gridKey, props.selectGridItemKey]);
+        const resetSelectState = props.selectGridItemKey === props.gridKey;
+
+        // deletes entry
+        if (deleteState && resetSelectState){
+            setEntrySelect(true);
+            setEntryAdd(false);
+            setIdValue("hidden");
+            setDeleteState(false);
+        }else {
+            setEntrySelect(resetSelectState);
+        }
+    }, [deleteState, props.gridKey, props.selectGridItemKey, setDeleteState]);
 
     const onEntryClick = (entrySelected, entryAdded) => () => {
         const nextEntrySelect = !entrySelected;
