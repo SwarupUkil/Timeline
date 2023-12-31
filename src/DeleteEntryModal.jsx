@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 
 function DeleteEntryModal(props){
+
     const className = "modal";
     const message = "Are you sure you want to delete this entry?";
 

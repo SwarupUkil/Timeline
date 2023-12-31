@@ -35,6 +35,7 @@ function GridItem(props){
         setEntrySelect(nextEntrySelect);
         setEntryAdd(nextEntryAdd);
         props.setSelectGridItemKey(props.gridKey);
+        // console.log(props.selectGridItemKey);
         setKeyValue(props.gridKey - 1); // required so that it fits array index values
 
         // if selected node is toggled to be selected
@@ -60,15 +61,13 @@ function GridItem(props){
 
 function TimelineGrid(props){
 
-    const [selectGridItemKey, setSelectGridItemKey] = useState(null);
-
     // Create an array of `GridItem` components
     const gridItems = [];
     for (let i = 1; i <= props.size; i++) {
         // Key added for React list rendering
         gridItems.push(<GridItem key={i}
-                                 selectGridItemKey={selectGridItemKey}
-                                 setSelectGridItemKey={setSelectGridItemKey}
+                                 selectGridItemKey={props.selectGridItemKey}
+                                 setSelectGridItemKey={props.setSelectGridItemKey}
                                  gridKey={i} />);
     }
 
@@ -85,6 +84,8 @@ function TimelineGrid(props){
 // PropTypes setup
 TimelineGrid.propTypes = {
     size: PropTypes.number.isRequired,
+    selectGridItemKey: PropTypes.number,
+    setSelectGridItemKey: PropTypes.func,
 };
 
 TimelineGrid.defaultProps = {
