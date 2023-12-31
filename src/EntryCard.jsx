@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {EntryCardContext} from "./Application.jsx";
 import {useContext} from "react";
 import PropTypes from "prop-types";
@@ -78,13 +78,19 @@ function EntryDescription(props){
 }
 
 function EntryCard(props){
+    const defaults = {
+        image: "./src/assets/freedom.png",
+        title: "Enter Title",
+        date: "01/01/2024",
+        description: "Le description.",
+    };
 
     const [entries, setEntries] = useState(
         new Array(props.size).fill(null).map(() => ({
-            image: "./src/assets/freedom.png",
-            title: "Enter Title",
-            date: "01/01/2024",
-            description: "Le description."
+            image: defaults.image,
+            title: defaults.title,
+            date: defaults.date,
+            description: defaults.description,
         }))
     );
 
@@ -96,7 +102,7 @@ function EntryCard(props){
     };
 
 
-    const {idValue, keyValue} = useContext(EntryCardContext);
+    const {idValue, keyValue, deleteState, setDeleteState} = useContext(EntryCardContext);
     const containerClasses = "card-container";
     const imageContainer = "image-container";
     const descriptionContainer = "description-container";
@@ -105,6 +111,21 @@ function EntryCard(props){
     const title = entries[keyValue]["title"];
     const date = entries[keyValue]["date"];
     const description = entries[keyValue]["description"];
+
+    // Clear data
+    useEffect(() => {
+        if (deleteState){
+            const newEntries = [...entries];
+            newEntries[keyValue] = {
+                image: defaults.image,
+                title: defaults.title,
+                date: defaults.date,
+                description: defaults.description,
+            }
+            setEntries(newEntries);
+            setDeleteState(false);
+        }
+    }, [deleteState]);
 
     return (
         <>
