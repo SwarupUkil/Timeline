@@ -22,7 +22,7 @@ function GridItem(props){
 
     const [entrySelect, setEntrySelect] = useState(props.selectGridItemKey === props.gridKey);
     const [entryAdd, setEntryAdd] = useState(false);
-    const {setIdValue} = useContext(EntryCardContext);
+    const {setIdValue, setKeyValue} = useContext(EntryCardContext);
 
     useEffect(() => {
         setEntrySelect(props.selectGridItemKey === props.gridKey)
@@ -35,6 +35,7 @@ function GridItem(props){
         setEntrySelect(nextEntrySelect);
         setEntryAdd(nextEntryAdd);
         props.setSelectGridItemKey(props.gridKey);
+        setKeyValue(props.gridKey - 1); // required so that it fits array index values
 
         // if selected node is toggled to be selected
         // then show the EntryCard with appropriate info.
@@ -91,7 +92,7 @@ TimelineGrid.defaultProps = {
 };
 
 GridItem.propTypes = {
-    selectGridItemKey: PropTypes.number.isRequired,
+    selectGridItemKey: PropTypes.number,
     setSelectGridItemKey: PropTypes.func.isRequired,
     gridKey: PropTypes.number.isRequired,
 };

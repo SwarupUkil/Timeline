@@ -1,13 +1,140 @@
-.card-container{
-    height: 500px;
-    width: 500px;
-    display: flex;
+.card-container {
+    height: 480px;
+    width: 480px;
+    padding: 10px;
     border: 3px solid black;
-    flex-direction: column;
     background-color: white;
     color: black;
+
+    display: flex;
+    flex-direction: column;
 }
 
 #hidden {
     display:none;
+}
+
+/* Image styling */
+#image-container {
+    width: 100%;
+    height: auto;
+    max-height: 50%;
+}
+
+.entry-image {
+    width: 95%;
+    height: auto;
+    max-height: 95%;
+    object-fit: cover;
+    border: 1px solid black;
+    cursor: pointer;
+}
+
+#change-image {
+    width: 0;
+    height: 0;
+    display: none;
+}
+
+/* Title, Date, Description container styling */
+#description-container {
+    width: 100%;
+    height: auto;
+    min-height: 50%;
+
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 5%;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+/* Title and Date take up 30% of space */
+#description-container div {
+    width: 100%;
+    height: 20%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5%;
+}
+
+/* Title styling */
+.entry-title {
+    width: 90%;
+    height: auto;
+    padding: 5px 5px 2px;
+
+    background: transparent;
+    color: black;
+    border: 0 solid transparent;
+
+    /*font-family: ;*/
+    font-size: large;
+    font-weight: bold;
+    border-radius: 1%;
+    text-align: center;
+}
+
+.entry-title:hover {
+    border: 1px solid black;
+    padding: 4px 4px 1px;
+}
+
+.entry-title:focus {
+    outline: 1px solid black;
+}
+
+/* Date styling */
+.entry-date {
+    width: 90%;
+    height: auto;
+    /*padding: 1px;*/
+    padding: 1px 5px;
+
+    background: transparent;
+    color: black;
+    border: 0 solid transparent;
+
+    /*font-family: ;*/
+    font-size: large;
+    font-weight: lighter;
+    font-style: italic;
+    border-radius: 1%;
+    text-align: center;
+}
+
+.entry-date:hover {
+    border: 1px solid black;
+    padding: 0 4px;
+}
+
+.entry-date:focus {
+    outline: 1px solid black;
+}
+
+/* Description styling */
+.entry-description {
+    width: 90%;
+    height: 80%;
+    resize: none;
+    padding: 5px;
+
+    background: transparent;
+    color: black;
+    border: 0 solid transparent;
+
+    font-size: medium;
+    border-radius: 1%;
+    text-align: left;
+}
+
+.entry-description:hover {
+    border: 1px solid black;
+    padding: 4px;
+}
+
+.entry-description:focus {
+    outline: 1px solid black;
 }
