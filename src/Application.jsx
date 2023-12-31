@@ -19,13 +19,13 @@ function Application() {
     const [idValue, setIdValue] = useState("hidden"); // ID for entry card
     const [keyValue, setKeyValue] = useState(0);
     const [deleteState, setDeleteState] = useState(false);
-    // const [deleteModalState, setDeleteModalState] = useState(false);
+    const [deleteModalState, setDeleteModalState] = useState(false);
 
     // Delete timeline entry logic
     useEffect(() => {
         const onDeleteIsDown = (event) => {
             if (event.key === "Delete"){
-                // setDeleteModalState(true);
+                setDeleteModalState(true);
                 //
                 // so I make a clear data state,
                 // when true then change AddState in TimelineGrid to false,
@@ -45,13 +45,13 @@ function Application() {
         };
     }, []);
 
-    // const confirmDelete = (confirmDeletion) => {
-    //     if (confirmDeletion){
-    //         setDeleteState(true);
-    //     }
-    //
-    //     setDeleteModalState(false);
-    // };
+    const confirmDelete = (confirmDeletion) => {
+        if (confirmDeletion){
+            setDeleteState(true);
+        }
+
+        setDeleteModalState(false);
+    };
     // End of delete timeline entry logic
 
     return (
@@ -60,7 +60,7 @@ function Application() {
                 <TimelineGrid size={size}/>
                 <EntryCard size={size}/>
             </EntryCardContext.Provider>
-            {/*<DeleteEntryModal deleteModalState={deleteModalState} onClickDeleteLogic={confirmDelete}/>*/}
+            <DeleteEntryModal deleteModalState={deleteModalState} onClickDeleteLogic={confirmDelete}/>
         </>
     );
 }
