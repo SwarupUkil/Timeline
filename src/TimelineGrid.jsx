@@ -29,10 +29,11 @@ function GridItem(props){
 
         // deletes entry
         if (deleteState && resetSelectState){
-            setEntrySelect(true);
+            setEntrySelect(false);
             setEntryAdd(false);
             setDeleteState(false);
-        }else {
+            setIsSelected(false);
+        }else{
             setEntrySelect(resetSelectState);
         }
     }, [deleteState, props.gridKey, props.selectGridItemKey, setDeleteState]);
