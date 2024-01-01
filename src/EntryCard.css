@@ -138,3 +138,16 @@
 .entry-description:focus {
     outline: 1px solid black;
 }
+
+
+/* Sidebar styling */
+.arrow {
+    width: 20px;
+    height: 40px;
+    background-color: #888888;
+    border: 1px solid black;
+}
+
+.arrow:hover {
+    background-color: #7c7c7c;
+}
