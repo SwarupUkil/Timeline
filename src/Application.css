@@ -17,10 +17,20 @@ body {
     align-items: center;
 
     display: flex;
-    gap: 10px;
+    /*gap: 10px;*/
 
     --grid-width: 500px;
     --grid-height: 500px;
+}
+
+/* Container adjacent to timeline-grid */
+.fill-container {
+    height: 500px;
+
+    flex: 1;
+    display: flex;
+    justify-content: left;
+    align-items: center;
 }
 
 /* Main grid container style */
@@ -31,6 +41,8 @@ body {
     /*height: min(70vw, 70vh);*/
     width: 500px;
     height: 500px;
+
+    flex: 0;
 
     display: grid;
     grid-template: repeat(5, minmax(100px, 100px)) / repeat(5, minmax(100px, 100px));

@@ -4,6 +4,7 @@ import './DeleteEntryModal.css'
 import TimelineGrid from "./TimelineGrid.jsx";
 import EntryCard from "./EntryCard.jsx";
 import DeleteEntryModal from "./DeleteEntryModal.jsx";
+import SideBar from "./Sidebar.jsx";
 import {useState, createContext, useEffect} from "react";
 
 export const EntryCardContext = createContext({
@@ -17,7 +18,7 @@ export const EntryCardContext = createContext({
 
 function Application() {
     const size = 25;
-    const [idValue, setIdValue] = useState("hidden"); // ID for entry card
+    const [idValue, setIdValue] = useState("hidden"); // ID for entry card component visibility
     const [keyValue, setKeyValue] = useState(0);
     const [selectGridItemKey, setSelectGridItemKey] = useState(null);
     const [deleteState, setDeleteState] = useState(false);
@@ -52,11 +53,16 @@ function Application() {
     return (
         <>
             <EntryCardContext.Provider value={{idValue, setIdValue, keyValue, setKeyValue, deleteState, setDeleteState}}>
+                <div className="fill-container"></div>
                 <TimelineGrid size={size}
                               selectGridItemKey={selectGridItemKey}
                               setSelectGridItemKey={setSelectGridItemKey}/>
-                <EntryCard size={size}/>
+                <div className="fill-container">
+                    <EntryCard size={size}/>
+                    <SideBar/>
+                </div>
             </EntryCardContext.Provider>
+
             <DeleteEntryModal deleteModalState={deleteModalState} onClickDeleteLogic={confirmDelete}/>
         </>
     );
