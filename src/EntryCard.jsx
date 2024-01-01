@@ -79,7 +79,7 @@ function EntryDescription(props){
 
 function EntryCard(props){
     const defaults = {
-        image: "./src/assets/freedom.png",
+        image: "freedom.png",
         title: "Enter Title",
         date: "01/01/2024",
         description: "Le description.",
