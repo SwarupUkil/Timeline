@@ -23,6 +23,11 @@ body {
     --grid-height: 500px;
 }
 
+/* class to hide components */
+.hidden {
+    display:none;
+}
+
 /* Container adjacent to timeline-grid */
 .fill-container {
     height: 500px;

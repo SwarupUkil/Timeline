@@ -102,7 +102,7 @@ function EntryCard(props){
     };
 
 
-    const {idValue, keyValue, deleteState, setDeleteState} = useContext(EntryCardContext);
+    const {visibilityValue, keyValue, deleteState, setDeleteState} = useContext(EntryCardContext);
     const containerClasses = "card-container";
     const imageContainer = "image-container";
     const descriptionContainer = "description-container";
@@ -129,7 +129,7 @@ function EntryCard(props){
 
     return (
         <>
-            <div id={idValue} className={containerClasses}>
+            <div id={visibilityValue} className={containerClasses}>
                 <div id={imageContainer}>
                     <EntryImage image={image} title={title} index={keyValue} update={updateEntry}/>
                 </div>
