@@ -55,17 +55,28 @@ function Application() {
 
     return (
         <>
-            <EntryCardContext.Provider value={{visibilityValue, setVisibilityValue, keyValue, setKeyValue,
-                isSelected, setIsSelected, deleteState, setDeleteState}}>
-                <div className="fill-container"></div>
-                <TimelineGrid size={size}
-                              selectGridItemKey={selectGridItemKey}
-                              setSelectGridItemKey={setSelectGridItemKey}/>
-                <div className="fill-container">
-                    <EntryCard size={size}/>
-                    <SideBar/>
+            <div className="fill-container header">
+                <div id={"root-header"}>
+                    <button className={"modal-button"}>View</button>
+                    <button className={"modal-button"}>Edit</button>
+                    <button className={"modal-button"}>Connect</button>
                 </div>
-            </EntryCardContext.Provider>
+            </div>
+
+            <div id={"root-content"}>
+                <EntryCardContext.Provider value={{visibilityValue, setVisibilityValue, keyValue, setKeyValue,
+                    isSelected, setIsSelected, deleteState, setDeleteState}}>
+                    <div className="fill-container"></div>
+                    <TimelineGrid size={size}
+                                  selectGridItemKey={selectGridItemKey}
+                                  setSelectGridItemKey={setSelectGridItemKey}/>
+                    <div className="fill-container">
+                        <EntryCard size={size}/>
+                        <SideBar/>
+                    </div>
+                </EntryCardContext.Provider>
+            </div>
+            <div className="fill-container"></div>
 
             <DeleteEntryModal deleteModalState={deleteModalState} onClickDeleteLogic={confirmDelete}/>
         </>

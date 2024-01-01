@@ -8,19 +8,46 @@ body {
 }
 
 #root {
-    width: 100vw;
-    /*max-width: 1280px;*/
+    /*width: 100vw;*/
+    height: 100vh;
     margin: 0 auto;
-    padding: 2rem;
+
     text-align: center;
     justify-content: center;
     align-items: center;
 
     display: flex;
+    flex-direction: column;
     /*gap: 10px;*/
+    /*--grid-width: 500px;*/
+    /*--grid-height: 500px;*/
+}
 
-    --grid-width: 500px;
-    --grid-height: 500px;
+#root .header {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+}
+
+#root-header {
+    border: 1px solid black;
+    padding: 5%;
+    margin: 3%;
+    /*background-color: white;*/
+
+    /*width: 100vw;*/
+    display: flex;
+    gap:10px;
+}
+
+#root-content {
+    width: 100vw;
+
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+
+    display: flex;
 }
 
 /* class to hide components */
