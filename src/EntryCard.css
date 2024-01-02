@@ -26,7 +26,7 @@
     height: auto;
     max-height: 95%;
     object-fit: cover;
-    border: 1px solid black;
+    outline: 1px solid black;
     cursor: pointer;
 }
 
@@ -78,8 +78,8 @@
 }
 
 .entry-title:hover {
-    border: 1px solid black;
-    padding: 4px 4px 1px;
+    outline: 1px solid black;
+    /*padding: 4px 4px 1px;*/
 }
 
 .entry-title:focus {
@@ -106,8 +106,8 @@
 }
 
 .entry-date:hover {
-    border: 1px solid black;
-    padding: 0 4px;
+    outline: 1px solid black;
+    /*padding: 0 4px;*/
 }
 
 .entry-date:focus {
@@ -131,14 +131,27 @@
 }
 
 .entry-description:hover {
-    border: 1px solid black;
-    padding: 4px;
+    outline: 1px solid black;
+    /*padding: 4px;*/
 }
 
 .entry-description:focus {
     outline: 1px solid black;
 }
 
+ /*Reduced interaction for EntryCard components */
+.reduced-interaction .entry-image:hover {
+    cursor: default;
+}
+
+.reduced-interaction .entry-title:focus,
+.reduced-interaction .entry-date:focus,
+.reduced-interaction .entry-description:focus,
+.reduced-interaction .entry-title:hover,
+.reduced-interaction .entry-date:hover,
+.reduced-interaction .entry-description:hover {
+    outline: 0 solid black;
+}
 
 /* Sidebar styling */
 .arrow {

@@ -28,7 +28,7 @@ function EntryImage(props){
             />
             <input id={inputId}
                    type={type}
-                   accept={accept} onChange={changeImage}/>
+                   accept={accept} onChange={changeImage} disabled={props.disabled}/>
         </>
     );
 }
@@ -44,6 +44,7 @@ function EntryTitle(props){
                 type={type}
                 value={props.title}
                 onChange={(event) => props.update(props.index, "title", event.target.value)}
+                disabled={props.disabled}
             />
         </>
     );
@@ -60,6 +61,7 @@ function EntryDate(props){
                 type={type}
                 value={props.date}
                 onChange={(event) => props.update(props.index, "date", event.target.value)}
+                disabled={props.disabled}
             />
         </>
     );
@@ -73,6 +75,7 @@ function EntryDescription(props){
             className={inputClass}
             value={props.description}
             onChange={(event) => props.update(props.index, "description", event.target.value)}
+            disabled={props.disabled}
         />
     );
 }
@@ -102,7 +105,8 @@ function EntryCard(props){
     };
 
 
-    const {visibilityValue, keyValue, deleteState, setDeleteState} = useContext(EntryCardContext);
+    const {visibilityValue, keyValue, deleteState,
+        setDeleteState, currentView} = useContext(EntryCardContext);
     const containerClasses = "card-container";
     const imageContainer = "image-container";
     const descriptionContainer = "description-container";
@@ -111,6 +115,9 @@ function EntryCard(props){
     const title = entries[keyValue]["title"];
     const date = entries[keyValue]["date"];
     const description = entries[keyValue]["description"];
+
+    // Verify if the user is allowed to edit timeline entries.
+    const [userCanEdit, setUserCanEdit] = useState(currentView === "edit-mode");
 
     // Clear data
     useEffect(() => {
@@ -127,18 +134,23 @@ function EntryCard(props){
         }
     }, [deleteState]);
 
+    // Disable editing abilities once currentView changes.
+    useEffect(() => {
+        setUserCanEdit(currentView === "edit-mode");
+    }, [currentView]);
+
     return (
         <>
-            <div id={visibilityValue} className={containerClasses}>
+            <div id={visibilityValue} className={containerClasses + " " + (userCanEdit ? "": "reduced-interaction")}>
                 <div id={imageContainer}>
-                    <EntryImage image={image} title={title} index={keyValue} update={updateEntry}/>
+                    <EntryImage image={image} title={title} index={keyValue} update={updateEntry} disabled={!userCanEdit}/>
                 </div>
                 <div id={descriptionContainer}>
                     <div>
-                        <EntryTitle title={title} index={keyValue} update={updateEntry}/>
-                        <EntryDate date={date} index={keyValue} update={updateEntry}/>
+                        <EntryTitle title={title} index={keyValue} update={updateEntry} disabled={!userCanEdit}/>
+                        <EntryDate date={date} index={keyValue} update={updateEntry} disabled={!userCanEdit}/>
                     </div>
-                    <EntryDescription description={description} index={keyValue} update={updateEntry}/>
+                    <EntryDescription description={description} index={keyValue} update={updateEntry} disabled={!userCanEdit}/>
                 </div>
             </div>
         </>
@@ -155,24 +167,28 @@ EntryImage.propTypes = {
     title: PropTypes.string,
     index: PropTypes.number,
     update: PropTypes.func,
+    disabled: PropTypes.bool,
 }
 
 EntryTitle.propTypes = {
     title: PropTypes.string,
     index: PropTypes.number,
     update: PropTypes.func,
+    disabled: PropTypes.bool,
 }
 
 EntryDate.propTypes = {
     date: PropTypes.string,
     index: PropTypes.number,
     update: PropTypes.func,
+    disabled: PropTypes.bool,
 }
 
 EntryDescription.propTypes = {
     description: PropTypes.string,
     index: PropTypes.number,
     update: PropTypes.func,
+    disabled: PropTypes.bool,
 }
 
 // Exports

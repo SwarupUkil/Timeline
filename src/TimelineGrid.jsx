@@ -22,7 +22,7 @@ function GridItem(props){
 
     const [entrySelect, setEntrySelect] = useState(props.selectGridItemKey === props.gridKey);
     const [entryAdd, setEntryAdd] = useState(false);
-    const {setKeyValue, setIsSelected, deleteState, setDeleteState} = useContext(EntryCardContext);
+    const {setKeyValue, setIsSelected, deleteState, setDeleteState, currentView} = useContext(EntryCardContext);
 
     useEffect(() => {
         const resetSelectState = props.selectGridItemKey === props.gridKey;
@@ -36,17 +36,22 @@ function GridItem(props){
         }else{
             setEntrySelect(resetSelectState);
         }
-    }, [deleteState, props.gridKey, props.selectGridItemKey, setDeleteState]);
+    }, [deleteState, props.selectGridItemKey]);
 
     const onEntryClick = (entrySelected, entryAdded) => () => {
-        const nextEntrySelect = !entrySelected;
-        const nextEntryAdd = entryAdded || nextEntrySelect;
-
+        const nextEntryAdd = (currentView === "edit-mode") ? (entryAdded || !entrySelected) : entryAdded;
+        const nextEntrySelect = (currentView === "edit-mode" || nextEntryAdd) ? !entrySelected : false;
+        // A or (not(A) and B) = (A or Not(A)) and (A or B) = A or B = currentView === "edit-mode" or nextEntryAdd
         setEntrySelect(nextEntrySelect);
         setEntryAdd(nextEntryAdd);
-        props.setSelectGridItemKey(props.gridKey);
-        setKeyValue(props.gridKey - 1); // required so that it fits array index values
-        setIsSelected(nextEntrySelect);
+
+        if (nextEntrySelect) {
+            props.setSelectGridItemKey(props.gridKey);
+            setKeyValue(props.gridKey - 1); // required so that it fits array index values
+        }
+        if (nextEntryAdd){
+            setIsSelected(nextEntrySelect); // this global select checker feels redundant, but review on refactoring.
+        }
     };
 
     return (
