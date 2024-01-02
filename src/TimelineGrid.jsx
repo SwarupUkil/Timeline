@@ -48,6 +48,8 @@ function GridItem(props){
         if (nextEntrySelect) {
             props.setSelectGridItemKey(props.gridKey);
             setKeyValue(props.gridKey - 1); // required so that it fits array index values
+        }
+        if (nextEntryAdd){
             setIsSelected(nextEntrySelect); // this global select checker feels redundant, but review on refactoring.
         }
     };
