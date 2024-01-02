@@ -20,9 +20,9 @@ export const EntryCardContext = createContext({
 });
 
 function Application() {
-    const size = 25;
+    const size = 25; // Timeline grid size
     const [visibilityValue, setVisibilityValue] = useState("hidden"); // ID for entry card component visibility
-    const [keyValue, setKeyValue] = useState(0);
+    const [keyValue, setKeyValue] = useState(0); // Entry card key value to be accessed
     const [selectGridItemKey, setSelectGridItemKey] = useState(null);
     const [isSelected, setIsSelected] = useState(false);
     const [deleteState, setDeleteState] = useState(false);
@@ -33,7 +33,7 @@ function Application() {
     useEffect(() => {
         const onDeleteIsDown = (event) => {
             // keyCode 8 refers to shift key, metakey = cmd, ctrlkey = ctrl.
-            if (event.keyCode === 16 && (event.metaKey || event.ctrlKey) && isSelected){
+            if ((currentView === "edit-mode") && (event.keyCode === 16) && (event.metaKey || event.ctrlKey) && isSelected){
                 setDeleteModalState(true);
             }
         };
@@ -44,7 +44,7 @@ function Application() {
         return () => {
             window.removeEventListener('keydown', onDeleteIsDown);
         };
-    }, [selectGridItemKey]);
+    }, [selectGridItemKey, currentView]);
 
     const confirmDelete = (confirmDeletion) => {
         if (confirmDeletion){
@@ -78,11 +78,11 @@ function Application() {
         <>
             <div className="fill-container header">
                 <div id={"root-header"}>
-                    <button className={"modal-button"}
+                    <button className={"modal-button" + " " + (currentView === "view-mode" ? "view-select" : "")}
                             onClick={changeView("view-mode")}>View</button>
-                    <button className={"modal-button"}
+                    <button className={"modal-button" + " " + (currentView === "edit-mode" ? "view-select" : "")}
                             onClick={changeView("edit-mode")}>Edit</button>
-                    <button className={"modal-button"}
+                    <button className={"modal-button" + " " + (currentView === "connect-mode" ? "view-select" : "")}
                             onClick={changeView("connect-mode")}>Connect</button>
                 </div>
             </div>
