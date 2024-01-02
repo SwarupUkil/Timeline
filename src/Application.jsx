@@ -16,6 +16,7 @@ export const EntryCardContext = createContext({
     setIsSelected: () => {},
     deleteState: false,
     setDeleteState: () => {},
+    currentView: "edit-mode",
 });
 
 function Application() {
@@ -26,6 +27,7 @@ function Application() {
     const [isSelected, setIsSelected] = useState(false);
     const [deleteState, setDeleteState] = useState(false);
     const [deleteModalState, setDeleteModalState] = useState(false);
+    const [currentView, setCurrentView] = useState("edit-mode");
 
     // Delete timeline entry logic
     useEffect(() => {
@@ -53,19 +55,41 @@ function Application() {
     };
     // End of delete timeline entry logic
 
+    // View mode logic
+    // I am a clown for the below... ****************
+    const changeView = (viewType) => () => {
+            switch (viewType) {
+                case "view-mode":
+                    setCurrentView(viewType);
+                    break;
+                case "edit-mode":
+                    setCurrentView(viewType);
+                    break;
+                case "connect-mode":
+                    setCurrentView(viewType);
+                    break;
+                default:
+                    console.log("Function missing type-mode or incorrect value inputted into function.");
+            }
+        };
+
+
     return (
         <>
             <div className="fill-container header">
                 <div id={"root-header"}>
-                    <button className={"modal-button"}>View</button>
-                    <button className={"modal-button"}>Edit</button>
-                    <button className={"modal-button"}>Connect</button>
+                    <button className={"modal-button"}
+                            onClick={changeView("view-mode")}>View</button>
+                    <button className={"modal-button"}
+                            onClick={changeView("edit-mode")}>Edit</button>
+                    <button className={"modal-button"}
+                            onClick={changeView("connect-mode")}>Connect</button>
                 </div>
             </div>
 
             <div id={"root-content"}>
                 <EntryCardContext.Provider value={{visibilityValue, setVisibilityValue, keyValue, setKeyValue,
-                    isSelected, setIsSelected, deleteState, setDeleteState}}>
+                    isSelected, setIsSelected, deleteState, setDeleteState, currentView}}>
                     <div className="fill-container"></div>
                     <TimelineGrid size={size}
                                   selectGridItemKey={selectGridItemKey}
