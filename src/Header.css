@@ -1,0 +1,20 @@
+#header {
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+}
+
+#header-view-buttons {
+    border: 1px solid black;
+    padding: 1%;
+    /*margin: 3%;*/
+    background-color: #2a2929;
+    border-radius: 1%;
+
+    width: max-content;
+    display: flex;
+    justify-content: center;
+    gap:10px;
+}

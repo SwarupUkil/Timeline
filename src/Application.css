@@ -23,24 +23,6 @@ body {
     /*--grid-height: 500px;*/
 }
 
-#root .header {
-    display: flex;
-    flex-direction: column;
-    justify-content: start;
-}
-
-#root-header {
-    border: 1px solid black;
-    padding: 5%;
-    margin: 3%;
-    background-color: #2a2929;
-    border-radius: 1%;
-
-    /*width: 100vw;*/
-    display: flex;
-    gap:10px;
-}
-
 #root-content {
     width: 100vw;
 

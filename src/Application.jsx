@@ -1,4 +1,5 @@
 import './Application.css'
+import './Header.css'
 import './EntryCard.css'
 import './DeleteEntryModal.css'
 import TimelineGrid from "./TimelineGrid.jsx";
@@ -6,6 +7,7 @@ import EntryCard from "./EntryCard.jsx";
 import DeleteEntryModal from "./DeleteEntryModal.jsx";
 import SideBar from "./Sidebar.jsx";
 import {useState, createContext, useEffect} from "react";
+import Header from "./Header.jsx";
 
 export const EntryCardContext = createContext({
     visibilityValue: "hidden",
@@ -55,38 +57,26 @@ function Application() {
     };
     // End of delete timeline entry logic
 
-    // View mode logic
-    // I am a clown for the below... ****************
-    const changeView = (viewType) => () => {
-            switch (viewType) {
-                case "view-mode":
-                    setCurrentView(viewType);
-                    break;
-                case "edit-mode":
-                    setCurrentView(viewType);
-                    break;
-                case "connect-mode":
-                    setCurrentView(viewType);
-                    break;
-                default:
-                    console.log("Function missing type-mode or incorrect value inputted into function.");
-            }
-        };
+
 
 
     return (
         <>
-            <div className="fill-container header">
-                <div id={"root-header"}>
-                    <button className={"modal-button" + " " + (currentView === "view-mode" ? "view-select" : "")}
-                            onClick={changeView("view-mode")}>View</button>
-                    <button className={"modal-button" + " " + (currentView === "edit-mode" ? "view-select" : "")}
-                            onClick={changeView("edit-mode")}>Edit</button>
-                    <button className={"modal-button" + " " + (currentView === "connect-mode" ? "view-select" : "")}
-                            onClick={changeView("connect-mode")}>Connect</button>
-                </div>
+            {/* Header Region*/}
+            <div className="fill-container">
+                {/*<div id={"root-header"}>*/}
+                {/*    <button className={"modal-button" + " " + (currentView === "view-mode" ? "view-select" : "")}*/}
+                {/*            onClick={changeView("view-mode")}>View</button>*/}
+                {/*    <button className={"modal-button" + " " + (currentView === "edit-mode" ? "view-select" : "")}*/}
+                {/*            onClick={changeView("edit-mode")}>Edit</button>*/}
+                {/*    <button className={"modal-button" + " " + (currentView === "connect-mode" ? "view-select" : "")}*/}
+                {/*            onClick={changeView("connect-mode")}>Connect</button>*/}
+                {/*</div>*/}
+                <Header currentView={currentView} setCurrentView={setCurrentView}/>
             </div>
 
+
+            {/* Main Content Region */}
             <div id={"root-content"}>
                 <EntryCardContext.Provider value={{visibilityValue, setVisibilityValue, keyValue, setKeyValue,
                     isSelected, setIsSelected, deleteState, setDeleteState, currentView}}>
@@ -100,7 +90,11 @@ function Application() {
                     </div>
                 </EntryCardContext.Provider>
             </div>
+
+
+            {/* Footer Region */}
             <div className="fill-container"></div>
+
 
             <DeleteEntryModal deleteModalState={deleteModalState} onClickDeleteLogic={confirmDelete}/>
         </>
