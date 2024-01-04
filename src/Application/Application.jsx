@@ -1,14 +1,8 @@
-import './Application.css'
-import '../Header/Header.css'
-import '../TimelineGrid/TimelineGrid.css'
-import '../EntryCard/EntryCard.css'
-import '../EntryCard/EntryCardDescription.css'
-import '../DeleteEntryModal/DeleteEntryModal.css'
 import TimelineGrid from "../TimelineGrid/TimelineGrid.jsx";
 import EntryCard from "../EntryCard/EntryCard.jsx";
 import DeleteEntryModal from "../DeleteEntryModal/DeleteEntryModal.jsx";
 import SideBar from "../EntryCard/Sidebar.jsx";
-import {useState, createContext, useEffect} from "react";
+import {useState, useEffect, createContext} from "react";
 import Header from "../Header/Header.jsx";
 
 export const EntryCardContext = createContext({
@@ -58,9 +52,6 @@ function Application() {
         setDeleteModalState(false);
     };
     // End of delete timeline entry logic
-
-
-
 
     return (
         <>
