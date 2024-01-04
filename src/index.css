@@ -1,3 +1,10 @@
+@import './Application/Application.css';
+@import './Header/Header.css';
+@import './TimelineGrid/TimelineGrid.css';
+@import './EntryCard/EntryCard.css';
+@import './EntryCard/EntryCardDescription.css';
+@import './DeleteEntryModal/DeleteEntryModal.css';
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -12,30 +19,3 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
-/*a {*/
-/*  font-weight: 500;*/
-/*  color: #646cff;*/
-/*  text-decoration: inherit;*/
-/*}*/
-/*a:hover {*/
-/*  color: #535bf2;*/
-/*}*/
-
-/*h1 {*/
-/*  font-size: 3.2em;*/
-/*  line-height: 1.1;*/
-/*}*/
-
-/*@media (prefers-color-scheme: light) {*/
-/*  :root {*/
-/*    color: #213547;*/
-/*    background-color: #ffffff;*/
-/*  }*/
-/*  a:hover {*/
-/*    color: #747bff;*/
-/*  }*/
-/*  button {*/
-/*    background-color: #f9f9f9;*/
-/*  }*/
-/*}*/

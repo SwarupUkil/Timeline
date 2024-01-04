@@ -1,0 +1,66 @@
+
+/* Main grid container style */
+.timeline-grid {
+    border: 3px solid black;
+    text-align: center;
+    width: 500px;
+    height: 500px;
+
+    flex: 0;
+    display: grid;
+    grid-template: repeat(5, minmax(100px, 100px)) / repeat(5, minmax(100px, 100px));
+    resize: both;
+}
+
+/* Grid line style*/
+.grid-item {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.horizontal-line, .vertical-line {
+    position: absolute;
+    background-color: #f9f9f9;
+}
+
+.horizontal-line {
+    width: 100%;
+    height: 1px;
+}
+
+.vertical-line {
+    width: 1px;
+    height: 100%;
+}
+
+/* Timeline plot general style */
+.timeline-plot {
+    position: absolute;
+    width: 9px;
+    height: 9px;
+    border: 2px solid transparent;
+    border-radius: 100%;
+    background-color: #f0f0f0;
+}
+
+.timeline-plot:hover {
+    filter: drop-shadow(0 0 2em #646cffaa);
+}
+
+/* Selected and Unselected timeline plot point style */
+.select {
+    padding: 1px;
+    border: 1px solid red;
+}
+
+.select:hover , .deselect:hover {
+    transform: scale(1.5);
+}
+
+/*Timeline entry style */
+.timeline-entry {
+    padding: 10px;
+    background-color: #646cff;
+}
