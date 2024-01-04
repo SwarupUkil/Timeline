@@ -1,64 +1,12 @@
-body {
-    /*background-color: white;*/
-    margin: 0;
-    display: flex;
-    place-items: center;
-    min-width: 320px;
-    min-height: 100vh;
-}
-
-#root {
-    /*width: 100vw;*/
-    height: 100vh;
-    margin: 0 auto;
-
-    text-align: center;
-    justify-content: center;
-    align-items: center;
-
-    display: flex;
-    flex-direction: column;
-    /*gap: 10px;*/
-    /*--grid-width: 500px;*/
-    /*--grid-height: 500px;*/
-}
-
-#root-content {
-    width: 100vw;
-
-    text-align: center;
-    justify-content: center;
-    align-items: center;
-
-    display: flex;
-}
-
-/* class to hide components */
-.hidden {
-    display:none;
-}
-
-/* Container adjacent to timeline-grid */
-.fill-container {
-    height: 500px;
-
-    flex: 1;
-    display: flex;
-    justify-content: left;
-    align-items: center;
-}
 
 /* Main grid container style */
 .timeline-grid {
     border: 3px solid black;
     text-align: center;
-    /*width: min(70vw, 70vh);*/
-    /*height: min(70vw, 70vh);*/
     width: 500px;
     height: 500px;
 
     flex: 0;
-
     display: grid;
     grid-template: repeat(5, minmax(100px, 100px)) / repeat(5, minmax(100px, 100px));
     resize: both;
@@ -111,7 +59,7 @@ body {
     transform: scale(1.5);
 }
 
- /*Timeline entry style */
+/*Timeline entry style */
 .timeline-entry {
     padding: 10px;
     background-color: #646cff;

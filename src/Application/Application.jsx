@@ -1,13 +1,15 @@
 import './Application.css'
-import './Header.css'
-import './EntryCard.css'
-import './DeleteEntryModal.css'
-import TimelineGrid from "./TimelineGrid.jsx";
-import EntryCard from "./EntryCard.jsx";
-import DeleteEntryModal from "./DeleteEntryModal.jsx";
-import SideBar from "./Sidebar.jsx";
+import '../Header/Header.css'
+import '../TimelineGrid/TimelineGrid.css'
+import '../EntryCard/EntryCard.css'
+import '../EntryCard/EntryCardDescription.css'
+import '../DeleteEntryModal/DeleteEntryModal.css'
+import TimelineGrid from "../TimelineGrid/TimelineGrid.jsx";
+import EntryCard from "../EntryCard/EntryCard.jsx";
+import DeleteEntryModal from "../DeleteEntryModal/DeleteEntryModal.jsx";
+import SideBar from "../EntryCard/Sidebar.jsx";
 import {useState, createContext, useEffect} from "react";
-import Header from "./Header.jsx";
+import Header from "../Header/Header.jsx";
 
 export const EntryCardContext = createContext({
     visibilityValue: "hidden",
@@ -62,22 +64,14 @@ function Application() {
 
     return (
         <>
-            {/* Header Region*/}
+            {/* Header Region */}
             <div className="fill-container">
-                {/*<div id={"root-header"}>*/}
-                {/*    <button className={"modal-button" + " " + (currentView === "view-mode" ? "view-select" : "")}*/}
-                {/*            onClick={changeView("view-mode")}>View</button>*/}
-                {/*    <button className={"modal-button" + " " + (currentView === "edit-mode" ? "view-select" : "")}*/}
-                {/*            onClick={changeView("edit-mode")}>Edit</button>*/}
-                {/*    <button className={"modal-button" + " " + (currentView === "connect-mode" ? "view-select" : "")}*/}
-                {/*            onClick={changeView("connect-mode")}>Connect</button>*/}
-                {/*</div>*/}
                 <Header currentView={currentView} setCurrentView={setCurrentView}/>
             </div>
 
 
             {/* Main Content Region */}
-            <div id={"root-content"}>
+            <div id={"timeline-wrapper"}>
                 <EntryCardContext.Provider value={{visibilityValue, setVisibilityValue, keyValue, setKeyValue,
                     isSelected, setIsSelected, deleteState, setDeleteState, currentView}}>
                     <div className="fill-container"></div>

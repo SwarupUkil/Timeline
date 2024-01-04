@@ -4,7 +4,6 @@ function DeleteEntryModal(props){
 
     const modalClassName = "modal";
     const message = "Are you sure you want to delete this entry?";
-    const buttonClassName = "modal-button";
 
     if (props.deleteModalState){
         return (
@@ -12,10 +11,8 @@ function DeleteEntryModal(props){
                 <div className={modalClassName}>
                     <div>{message}</div>
                     <div>
-                        <button className={buttonClassName}
-                                onClick={() => {props.onClickDeleteLogic(true)}}>Yes</button>
-                        <button className={buttonClassName}
-                                onClick={() => {props.onClickDeleteLogic(false)}}>No</button>
+                        <button onClick={() => {props.onClickDeleteLogic(true)}}>Yes</button>
+                        <button onClick={() => {props.onClickDeleteLogic(false)}}>No</button>
                     </div>
                 </div>
             </>

@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {EntryCardContext} from "./Application.jsx";
+import {EntryCardContext} from "../Application/Application.jsx";
 import {useContext} from "react";
 import PropTypes from "prop-types";
 

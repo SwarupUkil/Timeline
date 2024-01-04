@@ -1,0 +1,58 @@
+/* Timeline Entry Card style */
+.card-container {
+    height: 480px;
+    width: 480px;
+    padding: 10px;
+    border: 3px solid black;
+    background-color: white;
+    color: black;
+
+    display: flex;
+    flex-direction: column;
+}
+
+/* Hides Entry Card */
+#hidden {
+    display:none;
+}
+
+
+/* Image styling */
+#image-container {
+    width: 100%;
+    height: auto;
+    max-height: 50%;
+}
+
+.entry-image {
+    width: 95%;
+    height: auto;
+    max-height: 95%;
+    object-fit: cover;
+    outline: 1px solid black;
+    cursor: pointer;
+}
+
+#change-image {
+    width: 0;
+    height: 0;
+    display: none;
+}
+
+/* Reduced interaction for EntryCard components */
+.reduced-interaction .entry-image:hover {
+    cursor: default;
+}
+
+
+/* Sidebar styling */
+.arrow {
+    width: 20px;
+    height: 40px;
+    background-color: #888888;
+    border: 1px solid black;
+}
+
+.arrow:hover {
+    background-color: #7c7c7c;
+}

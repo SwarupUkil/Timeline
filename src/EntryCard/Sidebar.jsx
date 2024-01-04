@@ -1,5 +1,5 @@
 import {useContext, useEffect, useState} from "react";
-import {EntryCardContext} from "./Application.jsx";
+import {EntryCardContext} from "../Application/Application.jsx";
 
 function Sidebar(){
 

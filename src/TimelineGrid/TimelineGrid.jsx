@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import PropTypes from "prop-types";
 import {useContext} from "react";
-import {EntryCardContext} from "./Application.jsx";
+import {EntryCardContext} from "../Application/Application.jsx";
 
 function TimelineEntry(props){
 
