@@ -2,8 +2,9 @@ import TimelineGrid from "../TimelineGrid/TimelineGrid.jsx";
 import EntryCard from "../EntryCard/EntryCard.jsx";
 import DeleteEntryModal from "../DeleteEntryModal/DeleteEntryModal.jsx";
 import SideBar from "../EntryCard/Sidebar.jsx";
-import {useState, useEffect, createContext} from "react";
+import {useState, createContext} from "react";
 import Header from "../Header/Header.jsx";
+import useDeleteEntryLogic from "../DeleteEntryModal/useDeleteEntryLogic.js"
 
 export const EntryCardContext = createContext({
     visibilityValue: "hidden",
@@ -21,37 +22,12 @@ function Application() {
     const size = 25; // Timeline grid size
     const [visibilityValue, setVisibilityValue] = useState("hidden"); // ID for entry card component visibility
     const [keyValue, setKeyValue] = useState(0); // Entry card key value to be accessed
-    const [selectGridItemKey, setSelectGridItemKey] = useState(null);
-    const [isSelected, setIsSelected] = useState(false);
-    const [deleteState, setDeleteState] = useState(false);
-    const [deleteModalState, setDeleteModalState] = useState(false);
-    const [currentView, setCurrentView] = useState("edit-mode");
+    const [selectGridItemKey, setSelectGridItemKey] = useState(null); // Currently selected entry's key
+    const [isSelected, setIsSelected] = useState(false); // True if any entry is selected
+    const [currentView, setCurrentView] = useState("edit-mode"); // Contains the current view
+    const {deleteState, setDeleteState,
+        deleteModalState, confirmDelete} = useDeleteEntryLogic(currentView, isSelected);
 
-    // Delete timeline entry logic
-    useEffect(() => {
-        const onDeleteIsDown = (event) => {
-            // keyCode 8 refers to shift key, metakey = cmd, ctrlkey = ctrl.
-            if ((currentView === "edit-mode") && (event.keyCode === 16) && (event.metaKey || event.ctrlKey) && isSelected){
-                setDeleteModalState(true);
-            }
-        };
-
-        window.addEventListener('keydown', onDeleteIsDown);
-
-        // Cleanup
-        return () => {
-            window.removeEventListener('keydown', onDeleteIsDown);
-        };
-    }, [selectGridItemKey, currentView]);
-
-    const confirmDelete = (confirmDeletion) => {
-        if (confirmDeletion){
-            setDeleteState(true);
-        }
-
-        setDeleteModalState(false);
-    };
-    // End of delete timeline entry logic
 
     return (
         <>

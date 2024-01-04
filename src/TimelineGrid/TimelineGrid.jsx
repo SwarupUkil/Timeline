@@ -1,31 +1,24 @@
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import PropTypes from "prop-types";
-import {useContext} from "react";
 import {EntryCardContext} from "../Application/Application.jsx";
 
-function TimelineEntry(props){
+function TimelineEntry({onEntryClick, entrySelectState, entryAddState}){
 
-    let classStr = props.entrySelectState ? "select" : "deselect";
-    classStr += " ";
-    classStr += props.entryAddState ? "timeline-entry" : "";
+    const entryClass = (entrySelectState ? "select" : "deselect") +
+                        " " + (entryAddState ? "timeline-entry" : "");
 
-    const entryClass = classStr;
-    const onEntryClick = props.onEntryClick;
-
-    return(
-        <div onClick={onEntryClick} className={"timeline-plot" + " " + entryClass}></div>
-    );
+    return(<div onClick={onEntryClick} className={"timeline-plot" + " " + entryClass}></div>);
 }
 
 
-function GridItem(props){
+function GridItem({selectGridItemKey, setSelectGridItemKey, gridKey}){
 
-    const [entrySelect, setEntrySelect] = useState(props.selectGridItemKey === props.gridKey);
+    const [entrySelect, setEntrySelect] = useState(selectGridItemKey === gridKey);
     const [entryAdd, setEntryAdd] = useState(false);
     const {setKeyValue, setIsSelected, deleteState, setDeleteState, currentView} = useContext(EntryCardContext);
 
     useEffect(() => {
-        const resetSelectState = props.selectGridItemKey === props.gridKey;
+        const resetSelectState = selectGridItemKey === gridKey;
 
         // deletes entry
         if (deleteState && resetSelectState){
@@ -36,21 +29,20 @@ function GridItem(props){
         }else{
             setEntrySelect(resetSelectState);
         }
-    }, [deleteState, props.selectGridItemKey]);
+    }, [deleteState, selectGridItemKey]);
 
     const onEntryClick = (entrySelected, entryAdded) => () => {
         const nextEntryAdd = (currentView === "edit-mode") ? (entryAdded || !entrySelected) : entryAdded;
         const nextEntrySelect = (currentView === "edit-mode" || nextEntryAdd) ? !entrySelected : false;
-        // A or (not(A) and B) = (A or Not(A)) and (A or B) = A or B = currentView === "edit-mode" or nextEntryAdd
         setEntrySelect(nextEntrySelect);
         setEntryAdd(nextEntryAdd);
 
         if (nextEntrySelect) {
-            props.setSelectGridItemKey(props.gridKey);
-            setKeyValue(props.gridKey - 1); // required so that it fits array index values
+            setSelectGridItemKey(gridKey);
+            setKeyValue(gridKey - 1); // required so that it fits array index values
         }
         if (nextEntryAdd){
-            setIsSelected(nextEntrySelect); // this global select checker feels redundant, but review on refactoring.
+            setIsSelected(nextEntrySelect);
         }
     };
 
