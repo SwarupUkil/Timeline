@@ -3,39 +3,43 @@ import {EntryCardContext} from "../Application/Application.jsx";
 
 function Sidebar(){
 
-    // rightArrow = "M 21 10 L 29 50 L 21 90";
-    // idleLine = "M 25 10 L 25 90";
-    // leftArrow = "M 29 10 L 21 50 L 29 90";
-    const [arrowState, setArrowState] = useState("M 21 10 L 29 50 L 21 90");
-    const {setVisibilityValue, isSelected, deleteState} = useContext(EntryCardContext);
-    const [arrowVisibility, setArrowVisibility] = useState("hidden");
+    const rightArrow = "M 21 10 L 29 50 L 21 90";
+    // const idleLine = "M 25 10 L 25 90";
+    const leftArrow = "M 29 10 L 21 50 L 29 90";
+    const showStateValue = "show";
+    const hiddenStateValue = "hidden";
 
-    // A reset for when user deletes an entry
+    const [arrowState, setArrowState] = useState(rightArrow);
+    const {setVisibilityValue, isSelected, deleteState} = useContext(EntryCardContext);
+    const [arrowVisibility, setArrowVisibility] = useState(hiddenStateValue);
+
+    // A reset for when user deletes an entry,
+    // Or when the user unselects an entry.
     useEffect(() => {
         if (deleteState){
-            setArrowState("M 21 10 L 29 50 L 21 90");
-            setArrowVisibility("hidden");
-            setVisibilityValue("hidden");
+            setArrowState(rightArrow);
+            setArrowVisibility(hiddenStateValue);
+            setVisibilityValue(hiddenStateValue);
         }
 
         if (isSelected){
-            setArrowVisibility("show");
+            setArrowVisibility(showStateValue);
         }else{
-            setArrowState("M 21 10 L 29 50 L 21 90");
-            setArrowVisibility("hidden");
-            setVisibilityValue("hidden");
+            setArrowState(rightArrow);
+            setArrowVisibility(hiddenStateValue);
+            setVisibilityValue(hiddenStateValue);
         }
     }, [deleteState, isSelected]);
 
     const onSideBarClick = () => {
-        // if currently is right arrow, then set to left arrow
-        // else set to left arrow.
-        if (arrowState === "M 21 10 L 29 50 L 21 90"){
-            setArrowState("M 29 10 L 21 50 L 29 90");
-            setVisibilityValue("show");
+        // if currently we see the right arrow, then set to left arrow,
+        // else set to right arrow.
+        if (arrowState === rightArrow){
+            setArrowState(leftArrow);
+            setVisibilityValue(showStateValue);
         }else{
-            setArrowState("M 21 10 L 29 50 L 21 90");
-            setVisibilityValue("hidden");
+            setArrowState(rightArrow);
+            setVisibilityValue(hiddenStateValue);
         }
     }
 
