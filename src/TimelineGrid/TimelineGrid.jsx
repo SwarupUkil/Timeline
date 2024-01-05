@@ -89,19 +89,11 @@ function TimelineGrid({size, selectGridItemKey, setSelectGridItemKey, connectEnt
     const findConnection = (index) => {
         const connectClasses = [false, false, false, false];
         for (const [key, value] of connectEntries.entries()){
-            // console.log(key);
-            if (key === index || key === index){
-                for (const className of value){
-                    if (className === "left"){
-                        connectClasses[0] = true;
-                    }else if (className === "right"){
-                        connectClasses[1] = true;
-                    }else if (className === "up"){
-                        connectClasses[2] = true;
-                    }else{
-                        connectClasses[3] = true;
-                    }
-                }
+            if (key === index){
+                connectClasses[0] = value.left;
+                connectClasses[1] = value.right;
+                connectClasses[2] = value.up;
+                connectClasses[3] = value.down;
             }
         }
 
@@ -148,7 +140,7 @@ GridItem.propTypes = {
     selectGridItemKey: PropTypes.number,
     setSelectGridItemKey: PropTypes.func.isRequired,
     gridKey: PropTypes.number.isRequired,
-    connectClasses: PropTypes.string,
+    connectClasses: PropTypes.object,
 };
 
 TimelineEntry.propTypes = {

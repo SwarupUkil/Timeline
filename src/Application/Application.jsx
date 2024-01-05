@@ -47,6 +47,7 @@ function Application() {
         const moveLeft = horizontalDist < 0;
         const moveUp = verticalDist < 0;
         const path = new Map(); // map contains values 1-25 with an array of strings for up/down,left/right.
+        const createEmptyLinePath = () => {return {left: false, right: false, up: false, down: false}};
 
         // For left-right, the x changes towards coordTwo.x, y is constant with coordOne.y
         // so gridKey = (coordOne.x + i) + (coordOne.y * Math.sqrt(size)) + 1
@@ -56,23 +57,23 @@ function Application() {
             const gridKey = (coordOne.x + i) + (coordOne.y * Math.sqrt(size)) + 1;
 
             if (!path.has(gridKey)){
-                path.set(gridKey, []);
+                path.set(gridKey, createEmptyLinePath());
             }
 
             if (moveLeft){
                 if (!path.has(gridKey - 1)){
-                    path.set(gridKey - 1, []);
+                    path.set(gridKey - 1, createEmptyLinePath());
                 }
 
-                path.get(gridKey).push("left");
-                path.get(gridKey - 1).push("right");
+                path.get(gridKey).left = true;
+                path.get(gridKey - 1).right = true;
             }else{
                 if (!path.has(gridKey + 1)){
-                    path.set(gridKey + 1, []);
+                    path.set(gridKey + 1, createEmptyLinePath());
                 }
 
-                path.get(gridKey).push("right");
-                path.get(gridKey + 1).push("left");
+                path.get(gridKey).right = true;
+                path.get(gridKey + 1).left = true;
             }
         }
 
@@ -84,23 +85,23 @@ function Application() {
             const offset = Math.sqrt(size);
 
             if (!path.has(gridKey)){
-                path.set(gridKey, []);
+                path.set(gridKey, createEmptyLinePath());
             }
 
             if (moveUp){
                 if (!path.has(gridKey - offset)){
-                    path.set(gridKey - offset, []);
+                    path.set(gridKey - offset, createEmptyLinePath());
                 }
 
-                path.get(gridKey).push("up");
-                path.get(gridKey - offset).push("down");
+                path.get(gridKey).up = true;
+                path.get(gridKey - offset).down = true;
             }else{
                 if (!path.has(gridKey + offset)){
-                    path.set(gridKey + offset, []);
+                    path.set(gridKey + offset, createEmptyLinePath());
                 }
 
-                path.get(gridKey).push("down");
-                path.get(gridKey + offset).push("up");
+                path.get(gridKey).down = true;
+                path.get(gridKey + offset).up = true;
             }
         }
 
@@ -115,6 +116,19 @@ function Application() {
         return generatePath(coordOne, coordTwo);
     };
 
+    const updateEntries = (currentConnections, newConnections) => {
+        for (const [key, value] of newConnections.entries()){
+            if (!currentConnections.has(key)){
+                currentConnections.set(key, value);
+            }
+            currentConnections.get(key).left |= newConnections.get(key).left;
+            currentConnections.get(key).right |= newConnections.get(key).right;
+            currentConnections.get(key).up |= newConnections.get(key).up;
+            currentConnections.get(key).down |= newConnections.get(key).down;
+        }
+        return currentConnections;
+    };
+
     useEffect(() => {
         if (connectState.second && currentView === "connect-mode"){
             const newConnectEntries = new Map(connectEntries);
@@ -124,7 +138,8 @@ function Application() {
                 createConnectivePath(minEntryKey, maxEntryKey));
 
             // setConnectEntries(newConnectEntries);
-            setConnectEntries(createConnectivePath(minEntryKey, maxEntryKey))
+            setConnectEntries(updateEntries(new Map(connectEntries),
+                                            createConnectivePath(minEntryKey, maxEntryKey)));
             setConnectState({first: null, second: null});
         }
     }, [connectState]);
