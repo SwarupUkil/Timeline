@@ -11,11 +11,12 @@ function TimelineEntry({onEntryClick, entrySelectState, entryAddState}){
 }
 
 
-function GridItem({selectGridItemKey, setSelectGridItemKey, gridKey}){
+function GridItem({selectGridItemKey, setSelectGridItemKey, gridKey, connectClasses}){
 
     const [entrySelect, setEntrySelect] = useState(selectGridItemKey === gridKey);
     const [entryAdd, setEntryAdd] = useState(false);
-    const {setKeyValue, setIsSelected, deleteState, setDeleteState, currentView} = useContext(EntryCardContext);
+    const {setKeyValue, setIsSelected, deleteState, setDeleteState, currentView,
+    connectState, setConnectState} = useContext(EntryCardContext);
 
     useEffect(() => {
         const resetSelectState = selectGridItemKey === gridKey;
@@ -44,12 +45,37 @@ function GridItem({selectGridItemKey, setSelectGridItemKey, gridKey}){
         if (nextEntryAdd){
             setIsSelected(nextEntrySelect);
         }
+
+        // Choosing which grids to connect logic
+        if (currentView === "connect-mode"){
+            if (nextEntrySelect){
+                if (connectState.first){
+                    setConnectState({first: connectState.first, second: gridKey});
+                }else{
+                    // No need to verify if connectState.first === gridKey,
+                    // because the .second will only set when a new entry is selected.
+                    setConnectState({first: gridKey, second: null});
+                }
+            }else{
+                // remove node if the node is deselected
+                if (connectState.first === gridKey){
+                    setConnectState({first: connectState.second, second: null});
+                }
+                if (connectState.second === gridKey){
+                    setConnectState({first: gridKey, second: null});
+                }
+            }
+        }
     };
 
     return (
         <div className="grid-item">
-            <div className="horizontal-line"></div>
-            <div className="vertical-line"></div>
+            {/*<div className="horizontal-line"></div>*/}
+            {/*<div className="vertical-line"></div>*/}
+            <div className={connectClasses.left}></div>
+            <div className={connectClasses.right}></div>
+            <div className={connectClasses.up}></div>
+            <div className={connectClasses.down}></div>
             <TimelineEntry onEntryClick={onEntryClick(entrySelect, entryAdd)}
                            entrySelectState={entrySelect}
                            entryAddState={entryAdd}/>
@@ -58,16 +84,42 @@ function GridItem({selectGridItemKey, setSelectGridItemKey, gridKey}){
 }
 
 
-function TimelineGrid(props){
+function TimelineGrid({size, selectGridItemKey, setSelectGridItemKey, connectEntries}){
+
+    const findConnection = (index) => {
+        const connectClasses = [false, false, false, false];
+        for (const [key, value] of connectEntries.entries()){
+            // console.log(key);
+            if (key === index || key === index){
+                for (const className of value){
+                    if (className === "left"){
+                        connectClasses[0] = true;
+                    }else if (className === "right"){
+                        connectClasses[1] = true;
+                    }else if (className === "up"){
+                        connectClasses[2] = true;
+                    }else{
+                        connectClasses[3] = true;
+                    }
+                }
+            }
+        }
+
+        return {left: (connectClasses[0] ? "left" : ""),
+            right: (connectClasses[1] ? "right" : ""),
+            up: (connectClasses[2] ? "up" : ""),
+            down: (connectClasses[3] ? "down" : "")};
+    };
 
     // Create an array of `GridItem` components
     const gridItems = [];
-    for (let i = 1; i <= props.size; i++) {
+    for (let i = 1; i <= size; i++) {
         // Key added for React list rendering
         gridItems.push(<GridItem key={i}
-                                 selectGridItemKey={props.selectGridItemKey}
-                                 setSelectGridItemKey={props.setSelectGridItemKey}
-                                 gridKey={i} />);
+                                 selectGridItemKey={selectGridItemKey}
+                                 setSelectGridItemKey={setSelectGridItemKey}
+                                 gridKey={i}
+                                 connectClasses={findConnection(i)}/>);
     }
 
     return (
@@ -85,6 +137,7 @@ TimelineGrid.propTypes = {
     size: PropTypes.number.isRequired,
     selectGridItemKey: PropTypes.number,
     setSelectGridItemKey: PropTypes.func,
+    connectEntries: PropTypes.any,
 };
 
 TimelineGrid.defaultProps = {
@@ -95,6 +148,7 @@ GridItem.propTypes = {
     selectGridItemKey: PropTypes.number,
     setSelectGridItemKey: PropTypes.func.isRequired,
     gridKey: PropTypes.number.isRequired,
+    connectClasses: PropTypes.string,
 };
 
 TimelineEntry.propTypes = {
