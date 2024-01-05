@@ -59,8 +59,40 @@
     transform: scale(1.5);
 }
 
-/*Timeline entry style */
+/* Timeline entry style */
 .timeline-entry {
     padding: 10px;
     background-color: #646cff;
+}
+
+/* Connection lines between entries styling */
+.left, .right, .up, .down {
+    position: absolute;
+    background-color: #f9f9f9;
+}
+
+.left, .right {
+    width: 50%;
+    height: 1px;
+}
+
+.up, .down {
+    width: 1px;
+    height: 50%;
+}
+
+.left {
+    left: 0;
+}
+
+.right {
+    right: 0;
+}
+
+.up {
+    top: 0;
+}
+
+.down {
+    bottom: 0;
 }
