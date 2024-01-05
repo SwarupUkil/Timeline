@@ -32,6 +32,7 @@ function Application() {
 
     // Connect logic begin
     const [connectState, setConnectState] = useState({first: null, second: null});
+    const [connectSpecificEntries, setConnectSpecificEntries] = useState(new Map());
     const [connectEntries, setConnectEntries] = useState(new Map());
 
     const gridKeyToCoord = (entryKey) => {
@@ -116,30 +117,48 @@ function Application() {
         return generatePath(coordOne, coordTwo);
     };
 
+    // currentConnections is a map, whose keys are gridKeys,
+    // and values is an object containing left, right, up, down boolean states.
+    //
+    // newConnections should be an array of maps, whose keys are gridKeys,
+    // and values are objects containing the stateConnectedTo and the path.
     const updateEntries = (currentConnections, newConnections) => {
-        for (const [key, value] of newConnections.entries()){
-            if (!currentConnections.has(key)){
-                currentConnections.set(key, value);
+        for (const [gridkey, arrOfConnections] of newConnections.entries()){
+            // arrOfConnections is an array of objects which contain the path map too.
+            for (const connection of arrOfConnections){
+
+                for (const [key, value] of connection.path.entries()){
+                    if (!currentConnections.has(key)){
+                        currentConnections.set(key, value); // verify currentConnections contains left, right, ... for this key.
+                    }
+                    currentConnections.get(key).left |= value.left;
+                    currentConnections.get(key).right |= value.right;
+                    currentConnections.get(key).up |= value.up;
+                    currentConnections.get(key).down |= value.down;
+                }
             }
-            currentConnections.get(key).left |= newConnections.get(key).left;
-            currentConnections.get(key).right |= newConnections.get(key).right;
-            currentConnections.get(key).up |= newConnections.get(key).up;
-            currentConnections.get(key).down |= newConnections.get(key).down;
         }
         return currentConnections;
     };
 
     useEffect(() => {
         if (connectState.second && currentView === "connect-mode"){
-            const newConnectEntries = new Map(connectEntries);
+            const newConnectEntries = new Map(connectSpecificEntries);
             const minEntryKey = Math.min(connectState.first, connectState.second);
             const maxEntryKey = Math.max(connectState.first, connectState.second);
-            newConnectEntries.set({first : minEntryKey, second: maxEntryKey},
-                createConnectivePath(minEntryKey, maxEntryKey));
+            const path = createConnectivePath(minEntryKey, maxEntryKey);
 
-            // setConnectEntries(newConnectEntries);
-            setConnectEntries(updateEntries(new Map(connectEntries),
-                                            createConnectivePath(minEntryKey, maxEntryKey)));
+            if (!newConnectEntries.has(minEntryKey)){
+                newConnectEntries.set(minEntryKey, []);
+            }
+            if (!newConnectEntries.has(maxEntryKey)){
+                newConnectEntries.set(maxEntryKey, []);
+            }
+            newConnectEntries.get(minEntryKey).push({stateConnectedTo: maxEntryKey, path: path});
+            newConnectEntries.get(maxEntryKey).push({stateConnectedTo: minEntryKey, path: path});
+
+            setConnectSpecificEntries(newConnectEntries);
+            setConnectEntries(updateEntries(new Map(connectEntries), newConnectEntries));
             setConnectState({first: null, second: null});
         }
     }, [connectState]);
