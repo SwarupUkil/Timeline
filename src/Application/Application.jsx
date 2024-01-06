@@ -2,9 +2,10 @@ import TimelineGrid from "../TimelineGrid/TimelineGrid.jsx";
 import EntryCard from "../EntryCard/EntryCard.jsx";
 import DeleteEntryModal from "../DeleteEntryModal/DeleteEntryModal.jsx";
 import SideBar from "../EntryCard/Sidebar.jsx";
-import {useState, createContext} from "react";
+import {useState, createContext, useEffect} from "react";
 import Header from "../Header/Header.jsx";
 import useDeleteEntryLogic from "../DeleteEntryModal/useDeleteEntryLogic.js"
+import useConnectEntriesLogic from "../ConnectEntry/useConnectEntriesLogic.js";
 
 export const EntryCardContext = createContext({
     visibilityValue: "hidden",
@@ -16,6 +17,8 @@ export const EntryCardContext = createContext({
     deleteState: false,
     setDeleteState: () => {},
     currentView: "edit-mode",
+    connectState: null,
+    setConnectState: null,
 });
 
 function Application() {
@@ -25,8 +28,11 @@ function Application() {
     const [selectGridItemKey, setSelectGridItemKey] = useState(null); // Currently selected entry's key
     const [isSelected, setIsSelected] = useState(false); // True if any entry is selected
     const [currentView, setCurrentView] = useState("edit-mode"); // Contains the current view
+
     const {deleteState, setDeleteState,
         deleteModalState, confirmDelete} = useDeleteEntryLogic(currentView, isSelected);
+    const {connectState, setConnectState, connectSpecificEntries,
+        connectEntries} = useConnectEntriesLogic(size, currentView);
 
 
     return (
@@ -40,11 +46,12 @@ function Application() {
             {/* Main Content Region */}
             <div id={"timeline-wrapper"}>
                 <EntryCardContext.Provider value={{visibilityValue, setVisibilityValue, keyValue, setKeyValue,
-                    isSelected, setIsSelected, deleteState, setDeleteState, currentView}}>
+                    isSelected, setIsSelected, deleteState, setDeleteState, currentView, connectState, setConnectState}}>
                     <div className="fill-container"></div>
                     <TimelineGrid size={size}
                                   selectGridItemKey={selectGridItemKey}
-                                  setSelectGridItemKey={setSelectGridItemKey}/>
+                                  setSelectGridItemKey={setSelectGridItemKey}
+                                  connectEntries={connectEntries}/>
                     <div className="fill-container">
                         <EntryCard size={size}/>
                         <SideBar/>
