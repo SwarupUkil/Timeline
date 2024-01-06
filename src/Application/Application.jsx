@@ -6,6 +6,7 @@ import {useState, createContext, useEffect} from "react";
 import Header from "../Header/Header.jsx";
 import useDeleteEntryLogic from "../DeleteEntryModal/useDeleteEntryLogic.js"
 import useConnectEntriesLogic from "../ConnectEntry/useConnectEntriesLogic.js";
+import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 
 export const EntryCardContext = createContext({
     visibilityValue: "hidden",
@@ -48,10 +49,16 @@ function Application() {
                 <EntryCardContext.Provider value={{visibilityValue, setVisibilityValue, keyValue, setKeyValue,
                     isSelected, setIsSelected, deleteState, setDeleteState, currentView, connectState, setConnectState}}>
                     <div className="fill-container"></div>
-                    <TimelineGrid size={size}
-                                  selectGridItemKey={selectGridItemKey}
-                                  setSelectGridItemKey={setSelectGridItemKey}
-                                  connectEntries={connectEntries}/>
+
+                    <TransformWrapper>
+                        <TransformComponent>
+                            <TimelineGrid size={size}
+                                          selectGridItemKey={selectGridItemKey}
+                                          setSelectGridItemKey={setSelectGridItemKey}
+                                          connectEntries={connectEntries}/>
+                        </TransformComponent>
+                    </TransformWrapper>
+
                     <div className="fill-container">
                         <EntryCard size={size}/>
                         <SideBar/>
