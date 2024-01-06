@@ -2,7 +2,7 @@ import TimelineGrid from "../TimelineGrid/TimelineGrid.jsx";
 import EntryCard from "../EntryCard/EntryCard.jsx";
 import DeleteEntryModal from "../DeleteEntryModal/DeleteEntryModal.jsx";
 import SideBar from "../EntryCard/Sidebar.jsx";
-import {useState, createContext, useEffect} from "react";
+import {useState, createContext} from "react";
 import Header from "../Header/Header.jsx";
 import useDeleteEntryLogic from "../DeleteEntryModal/useDeleteEntryLogic.js"
 import useConnectEntriesLogic from "../ConnectEntry/useConnectEntriesLogic.js";

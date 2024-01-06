@@ -72,7 +72,7 @@ function GridItem({selectGridItemKey, setSelectGridItemKey, gridKey, connectClas
         <div className="grid-item">
             {/*<div className="horizontal-line"></div>*/}
             {/*<div className="vertical-line"></div>*/}
-            <div className={connectClasses.left}></div>
+            <div className={connectClasses.left}><div></div></div>
             <div className={connectClasses.right}></div>
             <div className={connectClasses.up}></div>
             <div className={connectClasses.down}></div>

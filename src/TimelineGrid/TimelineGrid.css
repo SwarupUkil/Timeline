@@ -52,7 +52,7 @@
 /* Selected and Unselected timeline plot point style */
 .select {
     padding: 1px;
-    border: 1px solid red;
+    border: 1px solid #7E54D9;
 }
 
 .select:hover , .deselect:hover {
@@ -62,7 +62,7 @@
 /* Timeline entry style */
 .timeline-entry {
     padding: 10px;
-    background-color: #646cff;
+    background-color: #70C056;
 }
 
 /* Connection lines between entries styling */
