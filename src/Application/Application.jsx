@@ -23,7 +23,7 @@ export const EntryCardContext = createContext({
 });
 
 function Application() {
-    const size = 25; // Timeline grid size
+    const size = 45; // Timeline grid size
     const [visibilityValue, setVisibilityValue] = useState("hidden"); // ID for entry card component visibility
     const [keyValue, setKeyValue] = useState(0); // Entry card key value to be accessed
     const [selectGridItemKey, setSelectGridItemKey] = useState(null); // Currently selected entry's key
@@ -50,14 +50,19 @@ function Application() {
                     isSelected, setIsSelected, deleteState, setDeleteState, currentView, connectState, setConnectState}}>
                     <div className="fill-container"></div>
 
-                    <TransformWrapper>
-                        <TransformComponent>
-                            <TimelineGrid size={size}
-                                          selectGridItemKey={selectGridItemKey}
-                                          setSelectGridItemKey={setSelectGridItemKey}
-                                          connectEntries={connectEntries}/>
-                        </TransformComponent>
-                    </TransformWrapper>
+                    <div className={"timeline-content"}>
+                            <TransformWrapper options={{ limitToBounds: false, centerContent: false, centerOnInit: false, initialScale: 1,
+                                                  minScale: 0.5,
+                                                  maxScale: 2}}>
+                                <TransformComponent wrapperClass={""}>
+                                    <TimelineGrid size={size}
+                                                  selectGridItemKey={selectGridItemKey}
+                                                  setSelectGridItemKey={setSelectGridItemKey}
+                                                  connectEntries={connectEntries}/>
+                                </TransformComponent>
+                            </TransformWrapper>
+                    </div>
+
 
                     <div className="fill-container">
                         <EntryCard size={size}/>
