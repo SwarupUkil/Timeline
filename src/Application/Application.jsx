@@ -24,6 +24,7 @@ export const EntryCardContext = createContext({
     connectState: null,
     setConnectState: null,
     connectSpecificEntries: new Map(),
+    setConnectSpecificEntries: () => {},
 
     entryIdCounter: 1,
     setEntryIdCounter: () => {},
@@ -46,7 +47,7 @@ function Application() {
         deleteModalState, confirmDelete} = useDeleteEntryLogic(currentView, isSelected);
 
     // connect-entry use case states
-    const {connectState, setConnectState, connectSpecificEntries,
+    const {connectState, setConnectState, connectSpecificEntries,setConnectSpecificEntries,
         connectEntries} = useConnectEntriesLogic(size, currentView);
     const transformWrapperRef = useRef(null);
     const [scale, setScale] = useState({minScale: 0.5, maxScale: 2});
@@ -81,7 +82,7 @@ function Application() {
             <div id={"timeline-wrapper"}>
 
                 <EntryCardContext.Provider value={{visibilityValue, setVisibilityValue,
-                    isSelected, setIsSelected, deleteState, setDeleteState, currentView, connectState, setConnectState, connectSpecificEntries,
+                    isSelected, setIsSelected, deleteState, setDeleteState, currentView, connectState, setConnectState, connectSpecificEntries, setConnectSpecificEntries,
                     entryIdCounter, setEntryIdCounter, entryNumbers, setEntryNumbers, selectedEntryId, setSelectedEntryId, setDisableDrag}}>
                     <div className="fill-container"></div>
 

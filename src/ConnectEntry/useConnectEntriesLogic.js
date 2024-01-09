@@ -63,18 +63,6 @@ const useConnectEntriesLogic = (size, currentView) => {
     useEffect(() => {
         if (connectState.second && currentView === "connect-mode"){
             const newConnectEntries = new Map(connectSpecificEntries);
-            // const minEntryKey = Math.min(connectState.first, connectState.second);
-            // const maxEntryKey = Math.max(connectState.first, connectState.second);
-            // const path = createConnectivePath(minEntryKey, maxEntryKey);
-            //
-            // if (!newConnectEntries.has(minEntryKey)){
-            //     newConnectEntries.set(minEntryKey, []);
-            // }
-            // if (!newConnectEntries.has(maxEntryKey)){
-            //     newConnectEntries.set(maxEntryKey, []);
-            // }
-            // newConnectEntries.get(minEntryKey).push({stateConnectedTo: maxEntryKey, path: path});
-            // newConnectEntries.get(maxEntryKey).push({stateConnectedTo: minEntryKey, path: path});
 
             if (!newConnectEntries.has(connectState.first)){
                 newConnectEntries.set(connectState.first, []);
@@ -82,22 +70,26 @@ const useConnectEntriesLogic = (size, currentView) => {
             if (!newConnectEntries.has(connectState.second)){
                 newConnectEntries.set(connectState.second, []);
             }
+
             const indexOfFirstInSecond = newConnectEntries.get(connectState.second).indexOf(connectState.first);
             const indexOfSecondInFirst = newConnectEntries.get(connectState.first).indexOf(connectState.second);
             if (indexOfFirstInSecond  === -1 && indexOfSecondInFirst === -1){
                 newConnectEntries.get(connectState.first).push(connectState.second);
+                newConnectEntries.get(connectState.second).push(connectState.first);
+                // console.log(newConnectEntries.get(connectState.first));
+                // console.log(newConnectEntries.get(connectState.second));
             }else{
-                if (indexOfFirstInSecond  !== -1){
-                    newConnectEntries.get(connectState.second).splice(indexOfFirstInSecond, 1);
-                }
-                if (indexOfSecondInFirst !== -1){
-                    newConnectEntries.get(connectState.first).splice(indexOfSecondInFirst, 1);
-                }
+                newConnectEntries.get(connectState.second).splice(indexOfFirstInSecond, 1);
+                newConnectEntries.get(connectState.first).splice(indexOfSecondInFirst, 1);
+                // if (indexOfFirstInSecond  !== -1){
+                //     newConnectEntries.get(connectState.second).splice(indexOfFirstInSecond, 1);
+                // }
+                // if (indexOfSecondInFirst !== -1){
+                //     newConnectEntries.get(connectState.first).splice(indexOfSecondInFirst, 1);
+                // }
             }
 
-            // if (!(minEntryKey in newConnectEntries.get(maxEntryKey))){
-            //     newConnectEntries.get(maxEntryKey).push(minEntryKey);
-            // }
+
             setConnectSpecificEntries(newConnectEntries);
             // setConnectEntries(updateEntries(new Map(connectEntries), adaptNewConnectEntries(newConnectEntries)));
             setConnectState({first: null, second: null});

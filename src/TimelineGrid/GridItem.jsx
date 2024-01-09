@@ -9,11 +9,11 @@ function GridItem({selectGridItemKey, setSelectGridItemKey, gridKey, connectClas
 
     const [entrySelect, setEntrySelect] = useState(selectGridItemKey === gridKey);
     const {setIsSelected, deleteState, setDeleteState, currentView,
-        connectState, setConnectState, connectSpecificEntries,
-        entryIdCounter, setEntryIdCounter, entryNumbers, setEntryNumbers, selectedEntryId, setSelectedEntryId} = useContext(EntryCardContext);
+        connectState, setConnectState, connectSpecificEntries, setConnectSpecificEntries,
+        entryIdCounter, setEntryIdCounter, entryNumbers, setEntryNumbers, setSelectedEntryId} = useContext(EntryCardContext);
 
     const {currentEntryNumber, setCurrentEntryNumber, isHovering, gridRef}
-        = useDropLogic(setSelectedEntryId, gridKey, setSelectGridItemKey);
+        = useDropLogic(setSelectedEntryId, gridKey, setSelectGridItemKey, connectSpecificEntries, setConnectSpecificEntries);
 
 
     useEffect(() => {
@@ -84,8 +84,9 @@ function GridItem({selectGridItemKey, setSelectGridItemKey, gridKey, connectClas
 
     const [connectItems, setConnectItems] = useState([]);
     useEffect(() => {
+        const newConnectItems = [];
+
         if (!!currentEntryNumber && connectSpecificEntries.has(currentEntryNumber)){
-            const newConnectItems = [];
             for (const otherEntry of connectSpecificEntries.get(currentEntryNumber)){
                 newConnectItems.push(<Xarrow key={`${currentEntryNumber}-to-${otherEntry}`}
                                              start={`entryNumber-${currentEntryNumber}`}
@@ -97,8 +98,9 @@ function GridItem({selectGridItemKey, setSelectGridItemKey, gridKey, connectClas
                                              // animateDrawing={true}
                 />)
             }
-            setConnectItems(newConnectItems);
         }
+
+        setConnectItems(newConnectItems);
     }, [connectSpecificEntries]);
 
 
