@@ -50,7 +50,8 @@
     width: 20px;
     height: 40px;
     background-color: #888888;
-    border: 1px solid black;
+    outline: 1px solid black;
+    margin-left: 3px;
 }
 
 .arrow:hover {

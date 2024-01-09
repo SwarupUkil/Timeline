@@ -16,7 +16,7 @@ function EntryDescription({description, index, update, disabled}){
 // PropTypes setup
 EntryDescription.propTypes = {
     description: PropTypes.string,
-    index: PropTypes.number,
+    index: PropTypes.any,
     update: PropTypes.func,
     disabled: PropTypes.bool,
 }
