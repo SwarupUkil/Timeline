@@ -15,7 +15,7 @@
 
     flex: 0;
     display: grid;
-    grid-template: repeat(5, minmax(100px, 100px)) / repeat(9, minmax(100px, 100px));
+    grid-template: repeat(9, minmax(100px, 100px)) / repeat(9, minmax(100px, 100px));
     resize: both;
 }
 
@@ -102,4 +102,11 @@
 
 .down {
     bottom: 0;
+}
+
+/* Style for entry on hovering over grids */
+.entry-hovering {
+    outline: 1px solid black;
+    border-radius: 100%;
+    opacity: 0.33;
 }
