@@ -1,14 +1,21 @@
+/* Container for dynamic timeline grid */
+.timeline-content {
+    outline: 1px solid black;
+    width: 500px;
+    height: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
 
 /* Main grid container style */
 .timeline-grid {
-    border: 3px solid black;
     text-align: center;
-    width: 500px;
-    height: 500px;
 
     flex: 0;
     display: grid;
-    grid-template: repeat(5, minmax(100px, 100px)) / repeat(5, minmax(100px, 100px));
+    grid-template: repeat(9, minmax(100px, 100px)) / repeat(9, minmax(100px, 100px));
     resize: both;
 }
 
@@ -95,4 +102,11 @@
 
 .down {
     bottom: 0;
+}
+
+/* Style for entry on hovering over grids */
+.entry-hovering {
+    outline: 1px solid black;
+    border-radius: 100%;
+    opacity: 0.33;
 }

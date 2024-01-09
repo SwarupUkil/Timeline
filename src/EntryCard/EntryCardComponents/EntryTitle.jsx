@@ -20,7 +20,7 @@ function EntryTitle({title, index, update, disabled}){
 // PropTypes setup
 EntryTitle.propTypes = {
     title: PropTypes.string,
-    index: PropTypes.number,
+    index: PropTypes.any,
     update: PropTypes.func,
     disabled: PropTypes.bool,
 }
