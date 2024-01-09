@@ -2,11 +2,11 @@ import TimelineGrid from "../TimelineGrid/TimelineGrid.jsx";
 import EntryCard from "../EntryCard/EntryCard.jsx";
 import DeleteEntryModal from "../DeleteEntryModal/DeleteEntryModal.jsx";
 import SideBar from "../EntryCard/Sidebar.jsx";
-import {useState, createContext} from "react";
+import {useState, createContext, useEffect, useRef} from "react";
 import Header from "../Header/Header.jsx";
 import useDeleteEntryLogic from "../DeleteEntryModal/useDeleteEntryLogic.js"
 import useConnectEntriesLogic from "../ConnectEntry/useConnectEntriesLogic.js";
-import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
+import {TransformWrapper, TransformComponent, useTransformEffect} from "react-zoom-pan-pinch";
 import {DndProvider} from "react-dnd";
 import {HTML5Backend} from "react-dnd-html5-backend";
 
@@ -48,6 +48,19 @@ function Application() {
     // connect-entry use case states
     const {connectState, setConnectState, connectSpecificEntries,
         connectEntries} = useConnectEntriesLogic(size, currentView);
+    const transformWrapperRef = useRef(null);
+    const [scale, setScale] = useState({minScale: 0.5, maxScale: 2});
+    const [position, setPosition] = useState({x: 0, y:0});
+
+    useEffect(() => {
+        const zoomAmount = 1;
+        transformWrapperRef.current.setTransform(position.x, position.y, zoomAmount)
+
+        const newScale = {};
+        newScale.minScale = currentView === "connect-mode" ? 1 : 0.5;
+        newScale.maxScale = currentView === "connect-mode" ? 1 : 2;
+        setScale(newScale);
+    }, [currentView]);
 
     // Timeline Entry states
     const [entryIdCounter, setEntryIdCounter] = useState(1); // ID incrementer for each new entry
@@ -74,17 +87,19 @@ function Application() {
 
                     <DndProvider backend={HTML5Backend}>
                         <div className={"timeline-content"}>
-                                <TransformWrapper disabled={disableDrag}
-                                                  minScale={0.5}
-                                                  maxScale={2}
+                                <TransformWrapper ref={transformWrapperRef}
+                                                  disabled={disableDrag}
+                                                  minScale={scale.minScale}
+                                                  maxScale={scale.maxScale}
                                                   initialScale={1}
                                                   limitToBounds={false}
                                                   centerContent={false}>
-                                    <TransformComponent wrapperClass={""}>
+                                    <TransformComponent>
                                         <TimelineGrid size={size}
                                                       selectGridItemKey={selectGridItemKey}
                                                       setSelectGridItemKey={setSelectGridItemKey}
-                                                      connectEntries={connectEntries}/>
+                                                      connectEntries={connectEntries}
+                                                      setPosition={setPosition}/>
                                     </TransformComponent>
                                 </TransformWrapper>
                         </div>

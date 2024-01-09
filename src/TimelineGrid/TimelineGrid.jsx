@@ -1,7 +1,16 @@
 import PropTypes from "prop-types";
 import GridItem from "./GridItem.jsx";
+import {useTransformEffect} from "react-zoom-pan-pinch";
 
-function TimelineGrid({size, selectGridItemKey, setSelectGridItemKey, connectEntries}){
+function TimelineGrid({size, selectGridItemKey, setSelectGridItemKey, connectEntries, setPosition}){
+
+    useTransformEffect(({ state, instance }) => {
+        // console.log(state); // { previousScale: 1, scale: 1, positionX: 0, positionY: 0 }
+        setPosition({x: state.positionX, y: state.positionY});
+        return () => {
+            // unmount
+        };
+    });
 
     const findConnection = (index) => {
         const connectClasses = [false, false, false, false];
@@ -47,6 +56,7 @@ TimelineGrid.propTypes = {
     selectGridItemKey: PropTypes.number,
     setSelectGridItemKey: PropTypes.func,
     connectEntries: PropTypes.any,
+    setPosition: PropTypes.func,
 };
 
 TimelineGrid.defaultProps = {

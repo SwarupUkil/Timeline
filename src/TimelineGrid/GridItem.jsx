@@ -10,7 +10,7 @@ function GridItem({selectGridItemKey, setSelectGridItemKey, gridKey, connectClas
     const [entrySelect, setEntrySelect] = useState(selectGridItemKey === gridKey);
     const {setIsSelected, deleteState, setDeleteState, currentView,
         connectState, setConnectState, connectSpecificEntries,
-        entryIdCounter, setEntryIdCounter, entryNumbers, setEntryNumbers, setSelectedEntryId} = useContext(EntryCardContext);
+        entryIdCounter, setEntryIdCounter, entryNumbers, setEntryNumbers, selectedEntryId, setSelectedEntryId} = useContext(EntryCardContext);
 
     const {currentEntryNumber, setCurrentEntryNumber, isHovering, gridRef}
         = useDropLogic(setSelectedEntryId, gridKey, setSelectGridItemKey);
@@ -84,12 +84,18 @@ function GridItem({selectGridItemKey, setSelectGridItemKey, gridKey, connectClas
 
     const [connectItems, setConnectItems] = useState([]);
     useEffect(() => {
-        // console.log("some");
         if (!!currentEntryNumber && connectSpecificEntries.has(currentEntryNumber)){
-            console.log("some");
             const newConnectItems = [];
             for (const otherEntry of connectSpecificEntries.get(currentEntryNumber)){
-                newConnectItems.push(<Xarrow start={`entryNumber-${currentEntryNumber}`} end={`entryNumber-${otherEntry}`}/>)
+                newConnectItems.push(<Xarrow key={`${currentEntryNumber}-to-${otherEntry}`}
+                                             start={`entryNumber-${currentEntryNumber}`}
+                                             end={`entryNumber-${otherEntry}`}
+                                             showHead={false}
+                                             startAnchor={"middle"}
+                                             endAnchor={"middle"}
+                                             zIndex={-100}
+                                             // animateDrawing={true}
+                />)
             }
             setConnectItems(newConnectItems);
         }
@@ -102,14 +108,15 @@ function GridItem({selectGridItemKey, setSelectGridItemKey, gridKey, connectClas
             <div className={connectClasses.right}></div>
             <div className={connectClasses.up}></div>
             <div className={connectClasses.down}></div>
-            <Xwrapper>
+            {/*<Xwrapper>*/}
                 {connectItems}
+            {/*</Xwrapper>*/}
                 <TimelineEntry onEntryClick={onEntryClick(entrySelect, currentEntryNumber)}
                                entrySelectState={entrySelect}
                                currentEntryNumber={currentEntryNumber}
                                setCurrentEntryNumber={setCurrentEntryNumber}
                                isHovering={isHovering}/>
-            </Xwrapper>
+
         </div>
     );
 }
