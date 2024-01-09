@@ -15,6 +15,7 @@
     "react-dnd": "^16.0.1",
     "react-dnd-html5-backend": "^16.0.1",
     "react-dom": "^18.2.0",
+    "react-xarrows": "^2.0.2",
     "react-zoom-pan-pinch": "^3.3.0"
   },
   "devDependencies": {

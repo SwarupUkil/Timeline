@@ -18,7 +18,8 @@ const TimelineEntry = ({onEntryClick, entrySelectState, currentEntryNumber, setC
         " " + (currentEntryNumber ? "timeline-entry" : "") +
         " " + (isHovering ? "entry-hovering" : "");
 
-    return(<div ref={entryDragRef}
+    return(<div id={currentEntryNumber ? `entryNumber-${currentEntryNumber}` : undefined}
+                ref={entryDragRef}
                 onClick={onEntryClick} onMouseEnter={() => setDisableDrag(true)} onMouseLeave={ () => setDisableDrag(false)}
                 className={"timeline-plot" + " " + entryClass}></div>);
 }

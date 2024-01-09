@@ -24,7 +24,8 @@ function TimelineGrid({size, selectGridItemKey, setSelectGridItemKey, connectEnt
     const gridItems = [];
     for (let i = 1; i <= size; i++) {
         // Key added for React list rendering
-        gridItems.push(<GridItem selectGridItemKey={selectGridItemKey}
+        gridItems.push(<GridItem key={i}
+                                 selectGridItemKey={selectGridItemKey}
                                  setSelectGridItemKey={setSelectGridItemKey}
                                  gridKey={i}
                                  connectClasses={findConnection(i)}/>);

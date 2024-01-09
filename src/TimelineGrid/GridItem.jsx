@@ -3,12 +3,13 @@ import {EntryCardContext} from "../Application/Application.jsx";
 import TimelineEntry from "./TimelineEntry.jsx";
 import PropTypes from "prop-types";
 import useDropLogic from "./useDropLogic.js";
+import Xarrow, {Xwrapper} from "react-xarrows";
 
 function GridItem({selectGridItemKey, setSelectGridItemKey, gridKey, connectClasses}){
 
     const [entrySelect, setEntrySelect] = useState(selectGridItemKey === gridKey);
     const {setIsSelected, deleteState, setDeleteState, currentView,
-        connectState, setConnectState,
+        connectState, setConnectState, connectSpecificEntries,
         entryIdCounter, setEntryIdCounter, entryNumbers, setEntryNumbers, setSelectedEntryId} = useContext(EntryCardContext);
 
     const {currentEntryNumber, setCurrentEntryNumber, isHovering, gridRef}
@@ -59,27 +60,41 @@ function GridItem({selectGridItemKey, setSelectGridItemKey, gridKey, connectClas
             setIsSelected(nextEntrySelect);
         }
 
-        // Choosing which grids to connect logic
+        // Choosing which entry-to-connect logic
         if (currentView === "connect-mode"){
             if (nextEntrySelect){
                 if (connectState.first){
-                    setConnectState({first: connectState.first, second: gridKey});
+                    setConnectState({first: connectState.first, second: currentEntryNumber});
                 }else{
                     // No need to verify if connectState.first === gridKey,
                     // because the .second will only set when a new entry is selected.
-                    setConnectState({first: gridKey, second: null});
+                    setConnectState({first: currentEntryNumber, second: null});
                 }
             }else{
                 // remove node if the node is deselected
-                if (connectState.first === gridKey){
+                if (connectState.first === currentEntryNumber){
                     setConnectState({first: connectState.second, second: null});
                 }
-                if (connectState.second === gridKey){
-                    setConnectState({first: gridKey, second: null});
+                if (connectState.second === currentEntryNumber){
+                    setConnectState({first: currentEntryNumber, second: null});
                 }
             }
         }
     };
+
+    const [connectItems, setConnectItems] = useState([]);
+    useEffect(() => {
+        // console.log("some");
+        if (!!currentEntryNumber && connectSpecificEntries.has(currentEntryNumber)){
+            console.log("some");
+            const newConnectItems = [];
+            for (const otherEntry of connectSpecificEntries.get(currentEntryNumber)){
+                newConnectItems.push(<Xarrow start={`entryNumber-${currentEntryNumber}`} end={`entryNumber-${otherEntry}`}/>)
+            }
+            setConnectItems(newConnectItems);
+        }
+    }, [connectSpecificEntries]);
+
 
     return (
         <div ref={gridRef} className="grid-item">
@@ -87,11 +102,14 @@ function GridItem({selectGridItemKey, setSelectGridItemKey, gridKey, connectClas
             <div className={connectClasses.right}></div>
             <div className={connectClasses.up}></div>
             <div className={connectClasses.down}></div>
-            <TimelineEntry onEntryClick={onEntryClick(entrySelect, currentEntryNumber)}
-                           entrySelectState={entrySelect}
-                           currentEntryNumber={currentEntryNumber}
-                           setCurrentEntryNumber={setCurrentEntryNumber}
-                           isHovering={isHovering}/>
+            <Xwrapper>
+                {connectItems}
+                <TimelineEntry onEntryClick={onEntryClick(entrySelect, currentEntryNumber)}
+                               entrySelectState={entrySelect}
+                               currentEntryNumber={currentEntryNumber}
+                               setCurrentEntryNumber={setCurrentEntryNumber}
+                               isHovering={isHovering}/>
+            </Xwrapper>
         </div>
     );
 }

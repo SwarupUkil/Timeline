@@ -23,6 +23,7 @@ export const EntryCardContext = createContext({
 
     connectState: null,
     setConnectState: null,
+    connectSpecificEntries: new Map(),
 
     entryIdCounter: 1,
     setEntryIdCounter: () => {},
@@ -67,7 +68,7 @@ function Application() {
             <div id={"timeline-wrapper"}>
 
                 <EntryCardContext.Provider value={{visibilityValue, setVisibilityValue,
-                    isSelected, setIsSelected, deleteState, setDeleteState, currentView, connectState, setConnectState,
+                    isSelected, setIsSelected, deleteState, setDeleteState, currentView, connectState, setConnectState, connectSpecificEntries,
                     entryIdCounter, setEntryIdCounter, entryNumbers, setEntryNumbers, selectedEntryId, setSelectedEntryId, setDisableDrag}}>
                     <div className="fill-container"></div>
 
