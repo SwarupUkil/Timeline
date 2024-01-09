@@ -37,7 +37,7 @@ function EntryImage({image, title, index, update, disabled}){
 EntryImage.propTypes = {
     image: PropTypes.string,
     title: PropTypes.string,
-    index: PropTypes.number,
+    index: PropTypes.any,
     update: PropTypes.func,
     disabled: PropTypes.bool,
 }

@@ -20,7 +20,7 @@ function EntryDate({date, index, update, disabled}){
 // PropTypes setup
 EntryDate.propTypes = {
     date: PropTypes.string,
-    index: PropTypes.number,
+    index: PropTypes.any,
     update: PropTypes.func,
     disabled: PropTypes.bool,
 }
