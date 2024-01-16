@@ -9,7 +9,7 @@ function Sidebar(){
     const showStateValue = "show";
     const hiddenStateValue = "hidden";
 
-    const [arrowState, setArrowState] = useState(rightArrow);
+    const [arrowState, setArrowState] = useState(leftArrow);
     const {setVisibilityValue, isSelected, deleteState} = useContext(EntryCardContext);
     const [arrowVisibility, setArrowVisibility] = useState(hiddenStateValue);
 
@@ -17,7 +17,7 @@ function Sidebar(){
     // Or when the user unselects an entry.
     useEffect(() => {
         if (deleteState){
-            setArrowState(rightArrow);
+            setArrowState(leftArrow);
             setArrowVisibility(hiddenStateValue);
             setVisibilityValue(hiddenStateValue);
         }
@@ -25,7 +25,7 @@ function Sidebar(){
         if (isSelected){
             setArrowVisibility(showStateValue);
         }else{
-            setArrowState(rightArrow);
+            setArrowState(leftArrow);
             setArrowVisibility(hiddenStateValue);
             setVisibilityValue(hiddenStateValue);
         }
@@ -36,10 +36,10 @@ function Sidebar(){
         // else set to right arrow.
         if (arrowState === rightArrow){
             setArrowState(leftArrow);
-            setVisibilityValue(showStateValue);
+            setVisibilityValue(hiddenStateValue);
         }else{
             setArrowState(rightArrow);
-            setVisibilityValue(hiddenStateValue);
+            setVisibilityValue(showStateValue);
         }
     }
 

@@ -96,8 +96,10 @@ function Application() {
 
 
                     <div className="fill-container">
-                        <EntryCard/>
-                        <SideBar/>
+                        <div className={"timeline-card-container"}>
+                            <SideBar/>
+                            <EntryCard/>
+                        </div>
                     </div>
                 </EntryCardContext.Provider>
             </div>

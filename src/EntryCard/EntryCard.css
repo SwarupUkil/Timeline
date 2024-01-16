@@ -1,3 +1,13 @@
+/* Timeline Entry Card container including sidebar */
+.timeline-card-container {
+    position: fixed;
+    right: 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 /* Timeline Entry Card style */
 .card-container {
     height: 480px;
@@ -47,8 +57,8 @@
 
 /* Sidebar styling */
 .arrow {
-    width: 20px;
-    height: 40px;
+    width: 40px;
+    height: 80px;
     background-color: #888888;
     outline: 1px solid black;
     margin-left: 3px;
