@@ -3,9 +3,9 @@ import {EntryCardContext} from "../Application/Application.jsx";
 import TimelineEntry from "./TimelineEntry.jsx";
 import PropTypes from "prop-types";
 import useDropLogic from "./useDropLogic.js";
-import Xarrow, {Xwrapper} from "react-xarrows";
+import Xarrow from "react-xarrows";
 
-function GridItem({selectGridItemKey, setSelectGridItemKey, gridKey, connectClasses}){
+function GridItem({selectGridItemKey, setSelectGridItemKey, gridKey}){
 
     const [entrySelect, setEntrySelect] = useState(selectGridItemKey === gridKey);
     const {setIsSelected, deleteState, setDeleteState, currentView,
@@ -122,19 +122,13 @@ function GridItem({selectGridItemKey, setSelectGridItemKey, gridKey, connectClas
 
     return (
         <div ref={gridRef} className="grid-item">
-            <div className={connectClasses.left}></div>
-            <div className={connectClasses.right}></div>
-            <div className={connectClasses.up}></div>
-            <div className={connectClasses.down}></div>
-            {/*<Xwrapper>*/}
-                {connectItems}
-            {/*</Xwrapper>*/}
-                <TimelineEntry onEntryClick={onEntryClick(entrySelect, currentEntryNumber)}
-                               entrySelectState={entrySelect}
-                               currentEntryNumber={currentEntryNumber}
-                               setCurrentEntryNumber={setCurrentEntryNumber}
-                               isHovering={isHovering}
-                               currentView={currentView}/>
+            {connectItems}
+            <TimelineEntry onEntryClick={onEntryClick(entrySelect, currentEntryNumber)}
+                           entrySelectState={entrySelect}
+                           currentEntryNumber={currentEntryNumber}
+                           setCurrentEntryNumber={setCurrentEntryNumber}
+                           isHovering={isHovering}
+                           currentView={currentView}/>
 
         </div>
     );
@@ -146,7 +140,6 @@ GridItem.propTypes = {
     selectGridItemKey: PropTypes.number,
     setSelectGridItemKey: PropTypes.func.isRequired,
     gridKey: PropTypes.number.isRequired,
-    connectClasses: PropTypes.object,
 };
 
 export default GridItem

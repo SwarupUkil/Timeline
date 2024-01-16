@@ -2,32 +2,13 @@ import PropTypes from "prop-types";
 import GridItem from "./GridItem.jsx";
 import {useTransformEffect} from "react-zoom-pan-pinch";
 
-function TimelineGrid({size, selectGridItemKey, setSelectGridItemKey, connectEntries, setPosition}){
+function TimelineGrid({size, selectGridItemKey, setSelectGridItemKey, setPosition}){
 
-    useTransformEffect(({ state, instance }) => {
-        // console.log(state); // { previousScale: 1, scale: 1, positionX: 0, positionY: 0 }
+    // Updates current x and y position while panning or zooming.
+    useTransformEffect(({ state}) => {
         setPosition({x: state.positionX, y: state.positionY});
-        return () => {
-            // unmount
-        };
+        return () => {}; // unmount
     });
-
-    const findConnection = (index) => {
-        const connectClasses = [false, false, false, false];
-        for (const [key, value] of connectEntries.entries()){
-            if (key === index){
-                connectClasses[0] = value.left;
-                connectClasses[1] = value.right;
-                connectClasses[2] = value.up;
-                connectClasses[3] = value.down;
-            }
-        }
-
-        return {left: (connectClasses[0] ? "left" : ""),
-            right: (connectClasses[1] ? "right" : ""),
-            up: (connectClasses[2] ? "up" : ""),
-            down: (connectClasses[3] ? "down" : "")};
-    };
 
     // Create an array of `GridItem` components
     const gridItems = [];
@@ -36,8 +17,7 @@ function TimelineGrid({size, selectGridItemKey, setSelectGridItemKey, connectEnt
         gridItems.push(<GridItem key={i}
                                  selectGridItemKey={selectGridItemKey}
                                  setSelectGridItemKey={setSelectGridItemKey}
-                                 gridKey={i}
-                                 connectClasses={findConnection(i)}/>);
+                                 gridKey={i} />);
     }
 
     return (

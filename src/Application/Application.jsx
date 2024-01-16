@@ -2,13 +2,13 @@ import TimelineGrid from "../TimelineGrid/TimelineGrid.jsx";
 import EntryCard from "../EntryCard/EntryCard.jsx";
 import DeleteEntryModal from "../DeleteEntryModal/DeleteEntryModal.jsx";
 import SideBar from "../EntryCard/Sidebar.jsx";
-import {useState, createContext, useEffect, useRef} from "react";
+import {useState, createContext} from "react";
 import Header from "../Header/Header.jsx";
-import useDeleteEntryLogic from "../DeleteEntryModal/useDeleteEntryLogic.js"
-import useConnectEntriesLogic from "../ConnectEntry/useConnectEntriesLogic.js";
+import useDeleteEntryLogic from "../DeleteEntryModal/useDeleteEntryLogic.js";
 import {TransformWrapper, TransformComponent} from "react-zoom-pan-pinch";
 import {DndProvider} from "react-dnd";
 import {HTML5Backend} from "react-dnd-html5-backend";
+import useConnectLogic from "../ConnectEntry/useConnectLogic.js";
 
 export const EntryCardContext = createContext({
     visibilityValue: "hidden",
@@ -36,6 +36,8 @@ export const EntryCardContext = createContext({
 });
 
 function Application() {
+
+    // Basic states for timeline
     const size = 81; // Timeline grid size
     const [visibilityValue, setVisibilityValue] = useState("hidden"); // ID for entry card component visibility
     const [selectGridItemKey, setSelectGridItemKey] = useState(null); // Currently selected entry's key
@@ -47,21 +49,8 @@ function Application() {
         deleteModalState, confirmDelete} = useDeleteEntryLogic(currentView, isSelected);
 
     // connect-entry use case states
-    const {connectState, setConnectState, connectSpecificEntries,setConnectSpecificEntries,
-        connectEntries} = useConnectEntriesLogic(size, currentView);
-    const transformWrapperRef = useRef(null);
-    const [scale, setScale] = useState({minScale: 0.5, maxScale: 2});
-    const [position, setPosition] = useState({x: 0, y:0});
-
-    useEffect(() => {
-        const zoomAmount = 1;
-        transformWrapperRef.current.setTransform(position.x, position.y, zoomAmount);
-
-        const newScale = {};
-        newScale.minScale = (currentView !== "view-mode") ? 1 : 0.5;
-        newScale.maxScale = (currentView !== "view-mode") ? 1 : 2;
-        setScale(newScale);
-    }, [currentView]);
+    const {connectState, setConnectState, connectSpecificEntries,
+        setConnectSpecificEntries, transformWrapperRef, scale, setPosition} = useConnectLogic(size, currentView);
 
     // Timeline Entry states
     const [entryIdCounter, setEntryIdCounter] = useState(1); // ID incrementer for each new entry
@@ -99,7 +88,6 @@ function Application() {
                                         <TimelineGrid size={size}
                                                       selectGridItemKey={selectGridItemKey}
                                                       setSelectGridItemKey={setSelectGridItemKey}
-                                                      connectEntries={connectEntries}
                                                       setPosition={setPosition}/>
                                     </TransformComponent>
                                 </TransformWrapper>

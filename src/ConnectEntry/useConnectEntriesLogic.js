@@ -1,69 +1,16 @@
 import { useState, useEffect } from 'react';
-import generatePath from "./generatePath.js";
 
 // Core Connect Logic
 const useConnectEntriesLogic = (size, currentView) => {
 
-
     const [connectState, setConnectState] = useState({first: null, second: null});
     const [connectSpecificEntries, setConnectSpecificEntries] = useState(new Map());
-    const [connectEntries, setConnectEntries] = useState(new Map());
-
-    const gridKeyToCoord = (entryKey) => {
-        const index = entryKey - 1;
-        const x = index % (Math.sqrt(size));
-        const y = Math.floor(index / Math.sqrt(size));
-        return {x: x, y: y};
-    };
-
-    // Assume entryOne < entryTwo
-    const createConnectivePath = (entryOneKey, entryTwoKey) => {
-        const coordOne = gridKeyToCoord(entryOneKey);
-        const coordTwo = gridKeyToCoord(entryTwoKey);
-        return generatePath(size, coordOne, coordTwo);
-    };
-
-    // currentConnections is a map, whose keys are gridKeys,
-    // and values is an object containing left, right, up, down boolean states.
-    // newConnections is an array of arrays containing [gridKey, pathValues].
-    const updateEntries = (currentConnections, newConnections) => {
-
-        for (const [gridKey, value] of newConnections){
-            if (!currentConnections.has(gridKey)){
-                currentConnections.set(gridKey, value); // verify currentConnections contains left, right, ... for this key.
-            }
-            currentConnections.get(gridKey).left |= value.left;
-            currentConnections.get(gridKey).right |= value.right;
-            currentConnections.get(gridKey).up |= value.up;
-            currentConnections.get(gridKey).down |= value.down;
-        }
-
-        return currentConnections;
-    };
-
-    // This converts the details of the new entry connections into a form that is simpler, and takes out dependencies.
-    // newConnections is a map which contains an array of maps, these inner maps have keys equaling gridKeys,
-    // and values are objects containing the stateConnectedTo and the path.
-    const adaptNewConnectEntries = (newConnections) => {
-
-        const adaptedConnectionsMap = [];
-
-        for (const arrOfConnections of newConnections.values()){
-            // arrOfConnections is an array of objects which contain the path map too.
-            for (const connection of arrOfConnections){
-                for (const [gridKey, value] of connection.path.entries()){
-                    adaptedConnectionsMap.push([gridKey, value]);
-                }
-            }
-        }
-
-        return adaptedConnectionsMap;
-    };
 
     useEffect(() => {
         if (connectState.second && currentView === "connect-mode"){
             const newConnectEntries = new Map(connectSpecificEntries);
 
+            // Make sure entries exists
             if (!newConnectEntries.has(connectState.first)){
                 newConnectEntries.set(connectState.first, []);
             }
@@ -71,32 +18,25 @@ const useConnectEntriesLogic = (size, currentView) => {
                 newConnectEntries.set(connectState.second, []);
             }
 
+            // Adds a connection between entries is they don't exist, or removes them if they do exist.
             const indexOfFirstInSecond = newConnectEntries.get(connectState.second).indexOf(connectState.first);
             const indexOfSecondInFirst = newConnectEntries.get(connectState.first).indexOf(connectState.second);
+
             if (indexOfFirstInSecond  === -1 && indexOfSecondInFirst === -1){
                 newConnectEntries.get(connectState.first).push(connectState.second);
                 newConnectEntries.get(connectState.second).push(connectState.first);
-                // console.log(newConnectEntries.get(connectState.first));
-                // console.log(newConnectEntries.get(connectState.second));
             }else{
                 newConnectEntries.get(connectState.second).splice(indexOfFirstInSecond, 1);
                 newConnectEntries.get(connectState.first).splice(indexOfSecondInFirst, 1);
-                // if (indexOfFirstInSecond  !== -1){
-                //     newConnectEntries.get(connectState.second).splice(indexOfFirstInSecond, 1);
-                // }
-                // if (indexOfSecondInFirst !== -1){
-                //     newConnectEntries.get(connectState.first).splice(indexOfSecondInFirst, 1);
-                // }
             }
 
 
             setConnectSpecificEntries(newConnectEntries);
-            // setConnectEntries(updateEntries(new Map(connectEntries), adaptNewConnectEntries(newConnectEntries)));
-            setConnectState({first: null, second: null});
+            setConnectState({first: null, second: null}); // User needs to select two new states again.
         }
     }, [connectState]);
 
-    return {connectState, setConnectState, connectSpecificEntries, setConnectSpecificEntries, connectEntries, setConnectEntries};
+    return {connectState, setConnectState, connectSpecificEntries, setConnectSpecificEntries};
 };
 
 export default useConnectEntriesLogic;

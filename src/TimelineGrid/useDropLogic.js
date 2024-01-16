@@ -18,7 +18,6 @@ const useDropLogic = (setSelectedEntryId, gridKey, setSelectGridItemKey, connect
                 newConnectEntries.get(connectedToEntryNumber).splice(indexOfConnectedToEntryNumber, 1);
             }
         }
-
         newConnectEntries.set(entryNumber, []);
         setConnectSpecificEntries(newConnectEntries);
 
