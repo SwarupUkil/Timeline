@@ -1,33 +1,23 @@
 import PropTypes from "prop-types";
 import GridItem from "./GridItem.jsx";
+import {useTransformEffect} from "react-zoom-pan-pinch";
 
-function TimelineGrid({size, selectGridItemKey, setSelectGridItemKey, connectEntries}){
+function TimelineGrid({size, selectGridItemKey, setSelectGridItemKey, setPosition}){
 
-    const findConnection = (index) => {
-        const connectClasses = [false, false, false, false];
-        for (const [key, value] of connectEntries.entries()){
-            if (key === index){
-                connectClasses[0] = value.left;
-                connectClasses[1] = value.right;
-                connectClasses[2] = value.up;
-                connectClasses[3] = value.down;
-            }
-        }
-
-        return {left: (connectClasses[0] ? "left" : ""),
-            right: (connectClasses[1] ? "right" : ""),
-            up: (connectClasses[2] ? "up" : ""),
-            down: (connectClasses[3] ? "down" : "")};
-    };
+    // Updates current x and y position while panning or zooming.
+    useTransformEffect(({ state}) => {
+        setPosition({x: state.positionX, y: state.positionY});
+        return () => {}; // unmount
+    });
 
     // Create an array of `GridItem` components
     const gridItems = [];
     for (let i = 1; i <= size; i++) {
         // Key added for React list rendering
-        gridItems.push(<GridItem selectGridItemKey={selectGridItemKey}
+        gridItems.push(<GridItem key={i}
+                                 selectGridItemKey={selectGridItemKey}
                                  setSelectGridItemKey={setSelectGridItemKey}
-                                 gridKey={i}
-                                 connectClasses={findConnection(i)}/>);
+                                 gridKey={i} />);
     }
 
     return (
@@ -46,6 +36,7 @@ TimelineGrid.propTypes = {
     selectGridItemKey: PropTypes.number,
     setSelectGridItemKey: PropTypes.func,
     connectEntries: PropTypes.any,
+    setPosition: PropTypes.func,
 };
 
 TimelineGrid.defaultProps = {

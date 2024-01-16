@@ -4,11 +4,11 @@ import DeleteEntryModal from "../DeleteEntryModal/DeleteEntryModal.jsx";
 import SideBar from "../EntryCard/Sidebar.jsx";
 import {useState, createContext} from "react";
 import Header from "../Header/Header.jsx";
-import useDeleteEntryLogic from "../DeleteEntryModal/useDeleteEntryLogic.js"
-import useConnectEntriesLogic from "../ConnectEntry/useConnectEntriesLogic.js";
-import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
+import useDeleteEntryLogic from "../DeleteEntryModal/useDeleteEntryLogic.js";
+import {TransformWrapper, TransformComponent} from "react-zoom-pan-pinch";
 import {DndProvider} from "react-dnd";
 import {HTML5Backend} from "react-dnd-html5-backend";
+import useConnectLogic from "../ConnectEntry/useConnectLogic.js";
 
 export const EntryCardContext = createContext({
     visibilityValue: "hidden",
@@ -23,6 +23,8 @@ export const EntryCardContext = createContext({
 
     connectState: null,
     setConnectState: null,
+    connectSpecificEntries: new Map(),
+    setConnectSpecificEntries: () => {},
 
     entryIdCounter: 1,
     setEntryIdCounter: () => {},
@@ -34,6 +36,8 @@ export const EntryCardContext = createContext({
 });
 
 function Application() {
+
+    // Basic states for timeline
     const size = 81; // Timeline grid size
     const [visibilityValue, setVisibilityValue] = useState("hidden"); // ID for entry card component visibility
     const [selectGridItemKey, setSelectGridItemKey] = useState(null); // Currently selected entry's key
@@ -46,7 +50,7 @@ function Application() {
 
     // connect-entry use case states
     const {connectState, setConnectState, connectSpecificEntries,
-        connectEntries} = useConnectEntriesLogic(size, currentView);
+        setConnectSpecificEntries, transformWrapperRef, scale, setPosition} = useConnectLogic(size, currentView);
 
     // Timeline Entry states
     const [entryIdCounter, setEntryIdCounter] = useState(1); // ID incrementer for each new entry
@@ -67,23 +71,24 @@ function Application() {
             <div id={"timeline-wrapper"}>
 
                 <EntryCardContext.Provider value={{visibilityValue, setVisibilityValue,
-                    isSelected, setIsSelected, deleteState, setDeleteState, currentView, connectState, setConnectState,
+                    isSelected, setIsSelected, deleteState, setDeleteState, currentView, connectState, setConnectState, connectSpecificEntries, setConnectSpecificEntries,
                     entryIdCounter, setEntryIdCounter, entryNumbers, setEntryNumbers, selectedEntryId, setSelectedEntryId, setDisableDrag}}>
                     <div className="fill-container"></div>
 
                     <DndProvider backend={HTML5Backend}>
                         <div className={"timeline-content"}>
-                                <TransformWrapper disabled={disableDrag}
-                                                  minScale={0.5}
-                                                  maxScale={2}
+                                <TransformWrapper ref={transformWrapperRef}
+                                                  disabled={disableDrag}
+                                                  minScale={scale.minScale}
+                                                  maxScale={scale.maxScale}
                                                   initialScale={1}
-                                                  limitToBounds={false}
+                                                  limitToBounds={true} // Turn this false to remove border limits
                                                   centerContent={false}>
-                                    <TransformComponent wrapperClass={""}>
+                                    <TransformComponent>
                                         <TimelineGrid size={size}
                                                       selectGridItemKey={selectGridItemKey}
                                                       setSelectGridItemKey={setSelectGridItemKey}
-                                                      connectEntries={connectEntries}/>
+                                                      setPosition={setPosition}/>
                                     </TransformComponent>
                                 </TransformWrapper>
                         </div>

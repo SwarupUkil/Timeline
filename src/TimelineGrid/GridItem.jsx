@@ -3,16 +3,17 @@ import {EntryCardContext} from "../Application/Application.jsx";
 import TimelineEntry from "./TimelineEntry.jsx";
 import PropTypes from "prop-types";
 import useDropLogic from "./useDropLogic.js";
+import Xarrow from "react-xarrows";
 
-function GridItem({selectGridItemKey, setSelectGridItemKey, gridKey, connectClasses}){
+function GridItem({selectGridItemKey, setSelectGridItemKey, gridKey}){
 
     const [entrySelect, setEntrySelect] = useState(selectGridItemKey === gridKey);
     const {setIsSelected, deleteState, setDeleteState, currentView,
-        connectState, setConnectState,
+        connectState, setConnectState, connectSpecificEntries, setConnectSpecificEntries,
         entryIdCounter, setEntryIdCounter, entryNumbers, setEntryNumbers, setSelectedEntryId} = useContext(EntryCardContext);
 
     const {currentEntryNumber, setCurrentEntryNumber, isHovering, gridRef}
-        = useDropLogic(setSelectedEntryId, gridKey, setSelectGridItemKey);
+        = useDropLogic(setSelectedEntryId, gridKey, setSelectGridItemKey, connectSpecificEntries, setConnectSpecificEntries);
 
 
     useEffect(() => {
@@ -20,6 +21,21 @@ function GridItem({selectGridItemKey, setSelectGridItemKey, gridKey, connectClas
 
         // deletes entry
         if (deleteState && resetSelectState){
+
+            // Delete all connections
+            const newConnectEntries = new Map(connectSpecificEntries);
+
+            // Remove connection to current entry from other entries
+            for (const connectedToEntryNumber of newConnectEntries.get(currentEntryNumber)){
+                const indexOfConnectedToEntryNumber = newConnectEntries.get(connectedToEntryNumber).indexOf(currentEntryNumber);
+                newConnectEntries.get(connectedToEntryNumber).splice(indexOfConnectedToEntryNumber, 1);
+            }
+
+            newConnectEntries.set(currentEntryNumber, []);
+            setConnectSpecificEntries(newConnectEntries);
+            setConnectState({first: null, second: null});
+
+
             setEntrySelect(false);
             setDeleteState(false);
             setIsSelected(false);
@@ -48,9 +64,10 @@ function GridItem({selectGridItemKey, setSelectGridItemKey, gridKey, connectClas
         if (nextEntryAdd && !currentEntryNumber){
             const currentEntryIdCounter = entryIdCounter;
             const newEntryNumbers = [...entryNumbers];
+
             setCurrentEntryNumber(currentEntryIdCounter);
-            setEntryIdCounter(currentEntryIdCounter + 1);
             newEntryNumbers.push(currentEntryIdCounter);
+            setEntryIdCounter(currentEntryIdCounter + 1);
             setEntryNumbers(newEntryNumbers);
         }
 
@@ -59,39 +76,60 @@ function GridItem({selectGridItemKey, setSelectGridItemKey, gridKey, connectClas
             setIsSelected(nextEntrySelect);
         }
 
-        // Choosing which grids to connect logic
+        // Choosing which entry-to-connect logic
         if (currentView === "connect-mode"){
             if (nextEntrySelect){
                 if (connectState.first){
-                    setConnectState({first: connectState.first, second: gridKey});
+                    setConnectState({first: connectState.first, second: currentEntryNumber});
                 }else{
                     // No need to verify if connectState.first === gridKey,
                     // because the .second will only set when a new entry is selected.
-                    setConnectState({first: gridKey, second: null});
+                    setConnectState({first: currentEntryNumber, second: null});
                 }
             }else{
                 // remove node if the node is deselected
-                if (connectState.first === gridKey){
+                if (connectState.first === currentEntryNumber){
                     setConnectState({first: connectState.second, second: null});
                 }
-                if (connectState.second === gridKey){
-                    setConnectState({first: gridKey, second: null});
+                if (connectState.second === currentEntryNumber){
+                    setConnectState({first: currentEntryNumber, second: null});
                 }
             }
         }
     };
 
+    const [connectItems, setConnectItems] = useState([]);
+    useEffect(() => {
+        const newConnectItems = [];
+
+        if (!!currentEntryNumber && connectSpecificEntries.has(currentEntryNumber)){
+            for (const otherEntry of connectSpecificEntries.get(currentEntryNumber)){
+                newConnectItems.push(<Xarrow key={`${currentEntryNumber}-to-${otherEntry}`}
+                                             start={`entryNumber-${currentEntryNumber}`}
+                                             end={`entryNumber-${otherEntry}`}
+                                             showHead={false}
+                                             startAnchor={"middle"}
+                                             endAnchor={"middle"}
+                                             zIndex={-100}
+                                             // animateDrawing={true}
+                />)
+            }
+        }
+
+        setConnectItems(newConnectItems);
+    }, [connectSpecificEntries]);
+
+
     return (
         <div ref={gridRef} className="grid-item">
-            <div className={connectClasses.left}></div>
-            <div className={connectClasses.right}></div>
-            <div className={connectClasses.up}></div>
-            <div className={connectClasses.down}></div>
+            {connectItems}
             <TimelineEntry onEntryClick={onEntryClick(entrySelect, currentEntryNumber)}
                            entrySelectState={entrySelect}
                            currentEntryNumber={currentEntryNumber}
                            setCurrentEntryNumber={setCurrentEntryNumber}
-                           isHovering={isHovering}/>
+                           isHovering={isHovering}
+                           currentView={currentView}/>
+
         </div>
     );
 }
@@ -102,7 +140,6 @@ GridItem.propTypes = {
     selectGridItemKey: PropTypes.number,
     setSelectGridItemKey: PropTypes.func.isRequired,
     gridKey: PropTypes.number.isRequired,
-    connectClasses: PropTypes.object,
 };
 
 export default GridItem
