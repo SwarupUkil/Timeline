@@ -4,15 +4,15 @@ import {EntryCardContext} from "../Application/Application.jsx";
 import {useDrag} from "react-dnd";
 
 // The actual Timeline Entry, which is a Draggable Component
-const TimelineEntry = ({onEntryClick, entrySelectState, currentEntryNumber, setCurrentEntryNumber, isHovering}) => {
+const TimelineEntry = ({onEntryClick, entrySelectState, currentEntryNumber, setCurrentEntryNumber, isHovering, currentView}) => {
 
     const {setDisableDrag} = useContext(EntryCardContext); // This is to disable the timeline grid panning
     const [, entryDragRef] = useDrag(() => ({
         type: "entry",
         item: {entryId: currentEntryNumber, formerGridEntryNumberSetter: setCurrentEntryNumber},
-        canDrag: () => {return (currentEntryNumber)},
+        canDrag: () => {return (currentEntryNumber && currentView === "edit-mode")},
         collect: () => ({entryId: currentEntryNumber})
-    }), [currentEntryNumber]);
+    }), [currentEntryNumber, currentView]);
 
     const entryClass = (entrySelectState ? "select" : "deselect") +
         " " + (currentEntryNumber ? "timeline-entry" : "") +
@@ -31,6 +31,7 @@ TimelineEntry.propTypes = {
     currentEntryNumber: PropTypes.number,
     setCurrentEntryNumber: PropTypes.func,
     isHovering: PropTypes.bool,
+    currentView: PropTypes.string,
 };
 
 export default TimelineEntry

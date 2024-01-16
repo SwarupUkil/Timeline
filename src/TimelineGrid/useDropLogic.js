@@ -10,13 +10,13 @@ const useDropLogic = (setSelectedEntryId, gridKey, setSelectGridItemKey, connect
     const onDropItem = (entryNumber, formerGridEntryNumberSetter) => {
 
         const newConnectEntries = new Map(connectSpecificEntries);
-        console.log(newConnectEntries.get(entryNumber));
-        console.log(entryNumber);
 
         // Remove connection to current entry from other entries
-        for (const connectedToEntryNumber of newConnectEntries.get(entryNumber)){
-            const indexOfConnectedToEntryNumber = newConnectEntries.get(connectedToEntryNumber).indexOf(entryNumber);
-            newConnectEntries.get(connectedToEntryNumber).splice(indexOfConnectedToEntryNumber, 1);
+        if (newConnectEntries.has(entryNumber)){
+            for (const connectedToEntryNumber of newConnectEntries.get(entryNumber)){
+                const indexOfConnectedToEntryNumber = newConnectEntries.get(connectedToEntryNumber).indexOf(entryNumber);
+                newConnectEntries.get(connectedToEntryNumber).splice(indexOfConnectedToEntryNumber, 1);
+            }
         }
 
         newConnectEntries.set(entryNumber, []);

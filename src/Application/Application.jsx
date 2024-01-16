@@ -6,7 +6,7 @@ import {useState, createContext, useEffect, useRef} from "react";
 import Header from "../Header/Header.jsx";
 import useDeleteEntryLogic from "../DeleteEntryModal/useDeleteEntryLogic.js"
 import useConnectEntriesLogic from "../ConnectEntry/useConnectEntriesLogic.js";
-import {TransformWrapper, TransformComponent, useTransformEffect} from "react-zoom-pan-pinch";
+import {TransformWrapper, TransformComponent} from "react-zoom-pan-pinch";
 import {DndProvider} from "react-dnd";
 import {HTML5Backend} from "react-dnd-html5-backend";
 
@@ -55,11 +55,11 @@ function Application() {
 
     useEffect(() => {
         const zoomAmount = 1;
-        transformWrapperRef.current.setTransform(position.x, position.y, zoomAmount)
+        transformWrapperRef.current.setTransform(position.x, position.y, zoomAmount);
 
         const newScale = {};
-        newScale.minScale = currentView === "connect-mode" ? 1 : 0.5;
-        newScale.maxScale = currentView === "connect-mode" ? 1 : 2;
+        newScale.minScale = (currentView !== "view-mode") ? 1 : 0.5;
+        newScale.maxScale = (currentView !== "view-mode") ? 1 : 2;
         setScale(newScale);
     }, [currentView]);
 
@@ -93,7 +93,7 @@ function Application() {
                                                   minScale={scale.minScale}
                                                   maxScale={scale.maxScale}
                                                   initialScale={1}
-                                                  limitToBounds={false}
+                                                  limitToBounds={true} // Turn this false to remove border limits
                                                   centerContent={false}>
                                     <TransformComponent>
                                         <TimelineGrid size={size}

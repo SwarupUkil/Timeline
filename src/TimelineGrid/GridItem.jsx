@@ -21,6 +21,21 @@ function GridItem({selectGridItemKey, setSelectGridItemKey, gridKey, connectClas
 
         // deletes entry
         if (deleteState && resetSelectState){
+
+            // Delete all connections
+            const newConnectEntries = new Map(connectSpecificEntries);
+
+            // Remove connection to current entry from other entries
+            for (const connectedToEntryNumber of newConnectEntries.get(currentEntryNumber)){
+                const indexOfConnectedToEntryNumber = newConnectEntries.get(connectedToEntryNumber).indexOf(currentEntryNumber);
+                newConnectEntries.get(connectedToEntryNumber).splice(indexOfConnectedToEntryNumber, 1);
+            }
+
+            newConnectEntries.set(currentEntryNumber, []);
+            setConnectSpecificEntries(newConnectEntries);
+            setConnectState({first: null, second: null});
+
+
             setEntrySelect(false);
             setDeleteState(false);
             setIsSelected(false);
@@ -49,9 +64,10 @@ function GridItem({selectGridItemKey, setSelectGridItemKey, gridKey, connectClas
         if (nextEntryAdd && !currentEntryNumber){
             const currentEntryIdCounter = entryIdCounter;
             const newEntryNumbers = [...entryNumbers];
+
             setCurrentEntryNumber(currentEntryIdCounter);
-            setEntryIdCounter(currentEntryIdCounter + 1);
             newEntryNumbers.push(currentEntryIdCounter);
+            setEntryIdCounter(currentEntryIdCounter + 1);
             setEntryNumbers(newEntryNumbers);
         }
 
@@ -117,7 +133,8 @@ function GridItem({selectGridItemKey, setSelectGridItemKey, gridKey, connectClas
                                entrySelectState={entrySelect}
                                currentEntryNumber={currentEntryNumber}
                                setCurrentEntryNumber={setCurrentEntryNumber}
-                               isHovering={isHovering}/>
+                               isHovering={isHovering}
+                               currentView={currentView}/>
 
         </div>
     );
