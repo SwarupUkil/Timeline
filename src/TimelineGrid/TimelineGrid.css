@@ -1,8 +1,11 @@
 /* Container for dynamic timeline grid */
 .timeline-content {
     outline: 1px solid black;
-    width: 500px;
-    height: 500px;
+
+    width: 100vw;
+    height: 100vh;
+    /*width: min(100%, 3000px);*/
+    /*height: min(100%, 1000px);*/
     display: flex;
     justify-content: center;
     align-items: center;
@@ -15,7 +18,7 @@
 
     flex: 0;
     display: grid;
-    grid-template: repeat(9, minmax(100px, 100px)) / repeat(9, minmax(100px, 100px));
+    grid-template: repeat(10, minmax(200px, 200px)) / repeat(30, minmax(200px, 200px));
     resize: both;
 }
 
@@ -45,9 +48,8 @@
 /* Timeline plot general style */
 .timeline-plot {
     position: absolute;
-    width: 9px;
-    height: 9px;
-    border: 2px solid transparent;
+    width: 20px;
+    height: 20px;
     border-radius: 100%;
     background-color: #f0f0f0;
 }
@@ -58,8 +60,7 @@
 
 /* Selected and Unselected timeline plot point style */
 .select {
-    padding: 1px;
-    border: 1px solid #7E54D9;
+    outline: 3px solid #7E54D9;
 }
 
 .select:hover , .deselect:hover {
@@ -68,40 +69,8 @@
 
 /* Timeline entry style */
 .timeline-entry {
-    padding: 10px;
-    background-color: #70C056;
-}
-
-/* Connection lines between entries styling */
-.left, .right, .up, .down {
-    position: absolute;
-    background-color: #f9f9f9;
-}
-
-.left, .right {
-    width: 50%;
-    height: 1px;
-}
-
-.up, .down {
-    width: 1px;
-    height: 50%;
-}
-
-.left {
-    left: 0;
-}
-
-.right {
-    right: 0;
-}
-
-.up {
-    top: 0;
-}
-
-.down {
-    bottom: 0;
+    padding: 25px;
+    background-color: #646cff;
 }
 
 /* Style for entry on hovering over grids */

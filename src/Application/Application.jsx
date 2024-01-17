@@ -38,7 +38,7 @@ export const EntryCardContext = createContext({
 function Application() {
 
     // Basic states for timeline
-    const size = 81; // Timeline grid size
+    const size = 300; // Timeline grid size
     const [visibilityValue, setVisibilityValue] = useState("hidden"); // ID for entry card component visibility
     const [selectGridItemKey, setSelectGridItemKey] = useState(null); // Currently selected entry's key
     const [isSelected, setIsSelected] = useState(false); // True if any entry is selected
@@ -96,8 +96,10 @@ function Application() {
 
 
                     <div className="fill-container">
-                        <EntryCard/>
-                        <SideBar/>
+                        <div className={"timeline-card-container"}>
+                            <SideBar/>
+                            <EntryCard/>
+                        </div>
                     </div>
                 </EntryCardContext.Provider>
             </div>

@@ -1,3 +1,14 @@
+/* Timeline Entry Card container including sidebar */
+.timeline-card-container {
+    position: fixed;
+    right: 0;
+    z-index: 10000;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 /* Timeline Entry Card style */
 .card-container {
     height: 480px;
@@ -47,13 +58,15 @@
 
 /* Sidebar styling */
 .arrow {
-    width: 20px;
-    height: 40px;
-    background-color: #888888;
+    width: 40px;
+    height: 80px;
+    /*background-color: #888888;*/
+    background-color: rgba(65, 73, 210, 0.67);
     outline: 1px solid black;
     margin-left: 3px;
 }
 
 .arrow:hover {
-    background-color: #7c7c7c;
+    background-color: rgba(35, 41, 133, 0.67);
+    filter: drop-shadow(0 0 1em #646cffaa);
 }

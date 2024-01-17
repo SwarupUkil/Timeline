@@ -11,11 +11,13 @@ const useConnectLogic = (size, currentView) => {
 
     useEffect(() => {
         const zoomAmount = 1;
-        transformWrapperRef.current.setTransform(position.x, position.y, zoomAmount);
+        if (currentView === "connect-mode"){
+            transformWrapperRef.current.setTransform(position.x, position.y, zoomAmount);
+        }
 
         const newScale = {};
-        newScale.minScale = (currentView !== "view-mode") ? 1 : 0.5;
-        newScale.maxScale = (currentView !== "view-mode") ? 1 : 2;
+        newScale.minScale = (currentView === "connect-mode") ? 1 : 0.5;
+        newScale.maxScale = (currentView === "connect-mode") ? 1 : 2;
         setScale(newScale);
     }, [currentView]);
 
