@@ -111,6 +111,7 @@ function GridItem({selectGridItemKey, setSelectGridItemKey, gridKey}){
                                              startAnchor={"middle"}
                                              endAnchor={"middle"}
                                              zIndex={-100}
+                                             color={"lightblue"}
                                              // animateDrawing={true}
                 />)
             }

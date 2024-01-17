@@ -5,6 +5,13 @@
     flex-direction: column;
     justify-content: start;
     align-items: center;
+
+    position: fixed;
+    top: 10%;
+    left: 0;
+    right: 0;
+    margin: auto;
+    z-index: 10000;
 }
 
 /* Container for view buttons */
@@ -12,15 +19,13 @@
     border: 1px solid black;
     padding: 1%;
     background-color: #2a2929;
-    border-radius: 1%;
-
-    position: fixed;
-    top: 10%;
+    border-radius: 8px;
 
     width: max-content;
     display: flex;
     justify-content: center;
     gap:10px;
+    filter: drop-shadow(0 0 1em #646cffaa);
 }
 
 /* View button on select additional styling */
