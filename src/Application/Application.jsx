@@ -9,6 +9,7 @@ import {TransformWrapper, TransformComponent} from "react-zoom-pan-pinch";
 import {DndProvider} from "react-dnd";
 import {HTML5Backend} from "react-dnd-html5-backend";
 import useConnectLogic from "../ConnectEntry/useConnectLogic.js";
+import {MapInteractionCSS} from "react-map-interaction/src";
 
 export const EntryCardContext = createContext({
     visibilityValue: "hidden",
@@ -82,17 +83,17 @@ function Application() {
                                                   minScale={scale.minScale}
                                                   maxScale={scale.maxScale}
                                                   initialScale={1}
-                                                  limitToBounds={true} // Turn this false to remove border limits
+                                                  limitToBounds={false} // Turn this false to remove border limits
                                                   centerContent={false}>
                                     <TransformComponent>
                                         <TimelineGrid size={size}
                                                       selectGridItemKey={selectGridItemKey}
                                                       setSelectGridItemKey={setSelectGridItemKey}
-                                                      setPosition={setPosition}/>
+                                                      setPosition={setPosition} />
                                     </TransformComponent>
                                 </TransformWrapper>
                         </div>
-                    </DndProvider>
+                </DndProvider>
 
 
                     <div className="fill-container">
