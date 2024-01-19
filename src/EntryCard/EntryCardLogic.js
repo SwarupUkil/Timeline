@@ -1,9 +1,11 @@
+import defaultImage from '../assets/timeline-entry-default.png';
+
 // Default values for a timeline entry
 export const defaults = {
-    image: "freedom.png",
+    image: defaultImage,
     title: "Enter Title",
     date: "01/01/2024",
-    description: "Le description.",
+    description: "Enter description.",
 };
 
 // Default data for first added entry
