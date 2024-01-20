@@ -9,6 +9,8 @@ import {defaultMap, defaults} from "./EntryCardLogic.js";
 
 function EntryCard(){
 
+    const {visibilityValue, currentView, entryIdCounter, selectedEntryId, entryIcons, setEntryIcons} = useContext(EntryCardContext);
+
     // Manages every entries values
     const [entries, setEntries] = useState(defaultMap);
 
@@ -27,11 +29,16 @@ function EntryCard(){
             newEntries.set(entryId + 1, defaults);
         }
 
+        // Update the icon a given entry its card image
+        if (stateKey === "image"){
+            const updateIconImage = new Map(entryIcons);
+            updateIconImage.set(entryId, value);
+            setEntryIcons(updateIconImage);
+        }
+
         setEntries(newEntries);
     };
 
-
-    const {visibilityValue, currentView, entryIdCounter, selectedEntryId} = useContext(EntryCardContext);
 
     const containerClasses = "card-container";
     const imageContainer = "image-container";

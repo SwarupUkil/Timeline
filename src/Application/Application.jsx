@@ -9,7 +9,6 @@ import {TransformWrapper, TransformComponent} from "react-zoom-pan-pinch";
 import {DndProvider} from "react-dnd";
 import {HTML5Backend} from "react-dnd-html5-backend";
 import useConnectLogic from "../ConnectEntry/useConnectLogic.js";
-import {MapInteractionCSS} from "react-map-interaction/src";
 
 export const EntryCardContext = createContext({
     visibilityValue: "hidden",
@@ -34,6 +33,9 @@ export const EntryCardContext = createContext({
     selectedEntryId: null,
     setSelectedEntryId: () => {},
     setDisableDrag: () => {},
+
+    entryIcons: new Map(),
+    setEntryIcons: () => {},
 });
 
 function Application() {
@@ -44,6 +46,7 @@ function Application() {
     const [selectGridItemKey, setSelectGridItemKey] = useState(null); // Currently selected entry's key
     const [isSelected, setIsSelected] = useState(false); // True if any entry is selected
     const [currentView, setCurrentView] = useState("edit-mode"); // Contains the current view
+    const [entryIcons, setEntryIcons] = useState(new Map()); // Contains reference to images the user gives
 
     // delete-entry use case states
     const {deleteState, setDeleteState,
@@ -73,7 +76,7 @@ function Application() {
 
                 <EntryCardContext.Provider value={{visibilityValue, setVisibilityValue,
                     isSelected, setIsSelected, deleteState, setDeleteState, currentView, connectState, setConnectState, connectSpecificEntries, setConnectSpecificEntries,
-                    entryIdCounter, setEntryIdCounter, entryNumbers, setEntryNumbers, selectedEntryId, setSelectedEntryId, setDisableDrag}}>
+                    entryIdCounter, setEntryIdCounter, entryNumbers, setEntryNumbers, selectedEntryId, setSelectedEntryId, setDisableDrag, entryIcons, setEntryIcons}}>
                     <div className="fill-container"></div>
 
                     <DndProvider backend={HTML5Backend}>
@@ -84,7 +87,8 @@ function Application() {
                                                   maxScale={scale.maxScale}
                                                   initialScale={1}
                                                   limitToBounds={false} // Turn this false to remove border limits
-                                                  centerContent={false}>
+                                                  centerContent={false}
+                                                  doubleClick={{disabled: true}}>
                                     <TransformComponent>
                                         <TimelineGrid size={size}
                                                       selectGridItemKey={selectGridItemKey}
@@ -93,7 +97,7 @@ function Application() {
                                     </TransformComponent>
                                 </TransformWrapper>
                         </div>
-                </DndProvider>
+                    </DndProvider>
 
 
                     <div className="fill-container">

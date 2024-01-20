@@ -4,8 +4,6 @@
 
     width: 100vw;
     height: 100vh;
-    /*width: min(100%, 3000px);*/
-    /*height: min(100%, 1000px);*/
     display: flex;
     justify-content: center;
     align-items: center;
@@ -69,8 +67,17 @@
 
 /* Timeline entry style */
 .timeline-entry {
-    padding: 25px;
-    background-color: #646cff;
+    position: absolute;
+    width: 70px;
+    height: 70px;
+    border-radius: 100%;
+}
+
+/* Icon styling */
+.icon {
+    width: inherit;
+    height: inherit;
+    border-radius: inherit;
 }
 
 /* Style for entry on hovering over grids */
