@@ -6,7 +6,6 @@ function TimelineGrid({size, selectGridItemKey, setSelectGridItemKey, setPositio
 
     // Updates current x and y position while panning or zooming.
     useTransformEffect(({ state}) => {
-        console.log(state.scale);
         setPosition({x: state.positionX, y: state.positionY, scale: state.scale});
         return () => {}; // unmount
     });

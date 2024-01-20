@@ -26,9 +26,11 @@ function GridItem({selectGridItemKey, setSelectGridItemKey, gridKey}){
             const newConnectEntries = new Map(connectSpecificEntries);
 
             // Remove connection to current entry from other entries
-            for (const connectedToEntryNumber of newConnectEntries.get(currentEntryNumber)){
-                const indexOfConnectedToEntryNumber = newConnectEntries.get(connectedToEntryNumber).indexOf(currentEntryNumber);
-                newConnectEntries.get(connectedToEntryNumber).splice(indexOfConnectedToEntryNumber, 1);
+            if (newConnectEntries.has(currentEntryNumber)){
+                for (const connectedToEntryNumber of newConnectEntries.get(currentEntryNumber)){
+                    const indexOfConnectedToEntryNumber = newConnectEntries.get(connectedToEntryNumber).indexOf(currentEntryNumber);
+                    newConnectEntries.get(connectedToEntryNumber).splice(indexOfConnectedToEntryNumber, 1);
+                }
             }
 
             newConnectEntries.set(currentEntryNumber, []);
