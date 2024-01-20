@@ -32,7 +32,7 @@ const useConnectEntriesLogic = (size, currentView) => {
 
 
             setConnectSpecificEntries(newConnectEntries);
-            setConnectState({first: null, second: null}); // User needs to select two new states again.
+            setConnectState({first: connectState.second, second: null}); // User needs to select two new states again.
         }
     }, [connectState]);
 
