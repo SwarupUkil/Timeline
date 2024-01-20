@@ -13,7 +13,6 @@ const useConnectLogic = (size, currentView) => {
         const newScale = {};
 
         if (currentView !== "view-mode"){
-            console.log("test", Math.abs(position.scale - 1));
             if (position.scale < 1){
                 transformWrapperRef.current.zoomIn(1.3 - position.scale, 100);
             }else if (position.scale > 1){
